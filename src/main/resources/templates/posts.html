@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista postów</title>
+</head>
+<body>
+<h1>Posty</h1>
+<ul>
+    <li th:each="post : ${posts}">
+        <h2 th:text="${post.name}">Tytuł</h2>
+        <p th:text="${post.content}">Treść</p>
+        <p>Autor ID: <span th:text="${post.postedBy}"></span></p>
+        <p>Data: <span th:text="${post.date}"></span></p>
+    </li>
+</ul>
+</body>
+</html>
