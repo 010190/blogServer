@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-    List<Post> findAllByNameContainingIgnoreCase(String name);
+    List<Post> findAllByTitleContainingIgnoreCase(String title);
     Page<Post> findAll(Pageable pageable);
     List<Post> findByPostedBy(Long postedBy);
 }

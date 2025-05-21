@@ -16,7 +16,11 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String title;
+
+    private String subtitle;
+
+    private String author;
 
     @Column(length = 5000)
     private String content;

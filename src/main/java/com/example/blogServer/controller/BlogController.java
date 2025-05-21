@@ -38,7 +38,7 @@ public class BlogController {
             Optional<User> userOpt = userService.getUserByUsername(username);
             userOpt.ifPresent(user -> {
                 model.addAttribute("userId", user.getId());
-                model.addAttribute("currentUser", user);  // Dodanie całego obiektu użytkownika
+                model.addAttribute("currentUser", user);
             });
         }
 

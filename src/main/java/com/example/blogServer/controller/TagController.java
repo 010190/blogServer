@@ -19,7 +19,7 @@ public class TagController {
 
     @PostMapping
     public Tag create(@RequestBody Tag t) {
-        return tagService.createTag(t.getName());
+        return tagService.createTag(t.getTitle());
     }
 
     @GetMapping("/{id}/posts")

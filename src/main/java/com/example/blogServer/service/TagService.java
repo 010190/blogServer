@@ -5,7 +5,7 @@ import com.example.blogServer.entity.Tag;
 import java.util.List;
 
 public interface TagService {
-    Tag createTag(String name);
+    Tag createTag(String title);
     List<Tag> getAllTags();
     List<Post> getPostsByTag(Long tagId);
 }

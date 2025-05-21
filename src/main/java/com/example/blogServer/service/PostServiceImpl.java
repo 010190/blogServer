@@ -61,8 +61,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> searchByName(String name) {
-        return postRepository.findAllByNameContainingIgnoreCase(name);
+    public List<Post> searchByTitle(String title) {
+        return postRepository.findAllByTitleContainingIgnoreCase(title);
     }
 
     @Override

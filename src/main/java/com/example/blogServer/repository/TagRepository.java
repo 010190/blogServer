@@ -9,6 +9,6 @@ import java.util.List;
 
 
 public interface TagRepository extends JpaRepository<Tag, Long> {
-    Optional<Tag> findByName(String name);
+    Optional<Tag> findByTitle(String title);
 }
 

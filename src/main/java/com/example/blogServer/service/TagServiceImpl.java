@@ -14,9 +14,11 @@ public class TagServiceImpl implements TagService {
     @Autowired private PostRepository postRepo;
 
     @Override
-    public Tag createTag(String name) {
-        return tagRepo.save(new Tag(name));
+    public Tag createTag(String title) {
+        return tagRepo.findByTitle(title)
+                .orElseGet(() -> tagRepo.save(new Tag(title)));
     }
+
 
     @Override
     public List<Tag> getAllTags() {
@@ -25,7 +27,9 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public List<Post> getPostsByTag(Long tagId) {
-        Tag tag = tagRepo.findById(tagId).orElseThrow();
+        Tag tag = tagRepo.findById(tagId)
+                .orElseThrow(() -> new RuntimeException("Tag o ID " + tagId + " nie istnieje"));
         return List.copyOf(tag.getPosts());
     }
+
 }

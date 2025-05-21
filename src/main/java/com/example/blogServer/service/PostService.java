@@ -13,7 +13,7 @@ public interface PostService {
 
     void likePost(Long postId, Long userId);
 
-    List<Post> searchByName(String name);
+    List<Post> searchByTitle(String title);
 
     List<Post> getRecentPosts(int limit);
 

@@ -2,6 +2,7 @@ package com.example.blogServer.entity;
 
 import jakarta.persistence.*;
 import lombok.Setter;
+import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,17 +14,23 @@ public class Tag {
     private Long id;
 
     @Setter
-    private String name;
+    private String title;
+
+    @Setter
+    private String subtitle;
+
 
     @Setter
     @ManyToMany(mappedBy = "tags")
     private Set<Post> posts = new HashSet<>();
 
     public Tag() {}
-    public Tag(String name) { this.name = name; }
+    public Tag(String title) { this.title = title; }
 
     public Long getId() { return id; }
-    public String getName() { return name; }
+    public String getTitle() { return title; }
+    public String getSubtitle() { return subtitle; }
+
 
     public Set<Post> getPosts() { return posts; }
 }

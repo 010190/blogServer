@@ -64,8 +64,8 @@ public class PostController {
     }
 
     @GetMapping("/search/{name}")
-    public ResponseEntity<List<Post>> searchByName(@PathVariable String name) {
-        return ResponseEntity.ok(postService.searchByName(name));
+    public ResponseEntity<List<Post>> searchByTitle(@PathVariable String title) {
+        return ResponseEntity.ok(postService.searchByTitle(title));
     }
 
     @GetMapping("/recent")
