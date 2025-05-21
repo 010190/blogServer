@@ -4,6 +4,7 @@ import com.example.blogServer.entity.Post;
 import com.example.blogServer.entity.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
     User registerUser(User user);
@@ -13,5 +14,6 @@ public interface UserService {
     boolean canModerateComment(User user);
 
     List<Post> getUserPosts(Long userId);
+    Optional<User> getUserByUsername(String username);
 }
 
