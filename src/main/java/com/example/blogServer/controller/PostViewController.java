@@ -21,7 +21,7 @@ public class PostViewController {
         this.statisticsService = statisticsService;
     }
 
-    @GetMapping("/posts")
+    @GetMapping("/post")
     public String showAllPosts(Model model) {
         List<Post> posts = postService.getAllPosts();
         model.addAttribute("posts", posts);

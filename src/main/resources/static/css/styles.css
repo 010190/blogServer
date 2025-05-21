@@ -10796,3 +10796,20 @@ header.masthead .post-heading .meta a {
     font-size: 2.25rem;
   }
 }
+.navbar-nav .nav-button {
+  background: none;
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  font-weight: inherit;
+  text-transform: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: #212529;
+}
+
+.navbar-nav .nav-button:hover {
+  color: #0085A1;
+}

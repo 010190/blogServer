@@ -1,7 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -20,13 +20,15 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <script th:src="@{/js/scripts.js}"></script>
+
 </head>
     <body>
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+                <a class="navbar-brand" th:href="@{/}">Start Bootstrap</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars"></i>
@@ -36,12 +38,29 @@
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/}">Home</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/about}">About</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/contact}">Contact</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/auth/login}">Logowanie</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/auth/register}">Rejestracja</a></li>
+                        <!-- Menu dla niezalogowanych -->
+                        <li class="nav-item" sec:authorize="!isAuthenticated()">
+                            <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/auth/login}">Log in </a>
+                        </li>
+                        <li class="nav-item" sec:authorize="!isAuthenticated()">
+                            <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/auth/register}">Sign in </a>
+                        </li>
+                        <li class="nav-item" sec:authorize="isAuthenticated()">
+                            <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/posts/create}">Create post</a>
+                        </li>
+
+                        <li class="nav-item" sec:authorize="isAuthenticated()">
+                            <form th:action="@{/logout}" method="post" style="display: inline; margin: 0; padding: 0;">
+                                <button type="submit" class="nav-link px-lg-3 py-3 py-lg-4 btn btn-link" style="background: none; border: none; color: white; font-family: inherit; font-size: inherit; text-transform: inherit; font-weight: inherit;">
+                                    Log out
+                                </button>
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
+
         <!-- Page Header-->
         <header class="masthead" th:style="|background-image: url(@{/assets/img/about-bg.jpg})|">
             <div class="container position-relative px-4 px-lg-5">

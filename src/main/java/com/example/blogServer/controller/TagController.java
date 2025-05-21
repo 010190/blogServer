@@ -22,7 +22,7 @@ public class TagController {
         return tagService.createTag(t.getTitle());
     }
 
-    @GetMapping("/{id}/posts")
+    @GetMapping("/{id}/post")
     public List<Post> posts(@PathVariable Long id) {
         return tagService.getPostsByTag(id);
     }

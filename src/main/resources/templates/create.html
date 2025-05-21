@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="en"
+<html lang="pl"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Logowanie - Blog</title>
+    <title>Dodaj nowy post</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
@@ -25,8 +24,7 @@
     <script th:src="@{/js/scripts.js}"></script>
 </head>
 <body>
-<!-- Navigation-->
-<!-- Fragment nawigacji -->
+<!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
     <div class="container px-4 px-lg-5">
         <a class="navbar-brand" th:href="@{/}">Start Bootstrap</a>
@@ -62,53 +60,48 @@
     </div>
 </nav>
 
-<!-- Page Header-->
-<header class="masthead" th:style="|background-image: url(@{/assets/img/contact-bg.jpg})|">
+<!-- Page Header -->
+<header class="masthead" style="background-image: url('/assets/img/post-bg.jpg')">
     <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
-                <div class="page-heading">
-                    <h1>Logowanie</h1>
-                    <span class="subheading">Zaloguj się, aby korzystać z pełni funkcji</span>
+                <div class="post-heading">
+                    <h1>Dodaj nowy post</h1>
                 </div>
             </div>
         </div>
     </div>
 </header>
-<!-- Main Content-->
-<main class="mb-4">
-    <div class="container px-4 px-lg-5">
-        <div class="row gx-4 gx-lg-5 justify-content-center">
-            <div class="col-md-10 col-lg-8 col-xl-7">
-                <p>Podaj swoje dane logowania, aby zalogować się do konta.</p>
-                <div class="my-5">
-                    <!-- Formularz logowania -->
-                    <div th:if="${param.error}" class="alert alert-danger">
-                        Nieprawidłowa nazwa użytkownika lub hasło.
-                    </div>
-                    <div th:if="${param.logout}" class="alert alert-success">
-                        Zostałeś wylogowany.
-                    </div>
-                    <form th:action="@{/auth/login-process}" method="post">
-                        <div class="form-group">
-                            <label for="username">Nazwa użytkownika</label>
-                            <input type="text" class="form-control" id="username" name="username" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Hasło</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Zaloguj się</button>
-                    </form>
-                    <div class="mt-4">
-                        <p>Nie masz jeszcze konta? <a th:href="@{/auth/register}">Zarejestruj się</a></p>
-                    </div>
+
+<!-- Main Content -->
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <form th:action="@{/posts/create}" method="post">
+                <div class="form-group mb-3">
+                    <label for="title">Tytuł</label>
+                    <input type="text" class="form-control" id="title" name="title" required>
                 </div>
-            </div>
+                <div class="form-group mb-3">
+                    <label for="subtitle">Podtytuł</label>
+                    <input type="text" class="form-control" id="subtitle" name="subtitle">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="content">Treść</label>
+                    <textarea class="form-control" id="content" name="content" rows="10" required></textarea>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="img">URL obrazka (opcjonalnie)</label>
+                    <input type="text" class="form-control" id="img" name="img" placeholder="np. /assets/img/post-bg.jpg">
+                    <small class="form-text text-muted">Jeśli pozostawisz puste, zostanie użyty domyślny obrazek.</small>
+                </div>
+                <button type="submit" class="btn btn-primary">Dodaj post</button>
+            </form>
         </div>
     </div>
-</main>
-<!-- Footer-->
+</div>
+
+<!-- Footer -->
 <footer class="border-top">
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -139,14 +132,13 @@
                         </a>
                     </li>
                 </ul>
-                <div class="small text-center text-muted fst-italic">Copyright &copy; Blog 2023</div>
+                <div class="small text-center text-muted fst-italic">Copyright &copy; Your Website 2023</div>
             </div>
         </div>
     </div>
 </footer>
-<!-- Bootstrap core JS-->
+
+<!-- Bootstrap core JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Core theme JS-->
-<script th:src="@{/js/scripts.js}"></script>
 </body>
 </html>
