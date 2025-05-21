@@ -35,7 +35,6 @@
                     <ul class="navbar-nav ms-auto py-4 py-lg-0">
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/}">Home</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/about}">About</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/post}">Sample Post</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/contact}">Contact</a></li>
                     </ul>
                 </div>
@@ -58,14 +57,14 @@
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <div th:each="post: ${allPosts}" class="post-container">
                         <div class="post-preview">
-                            <a href="post.html">
+                            <a th:href="@{/post/{id}(id=${post.id})}">
                                 <h2 class="post-title" th:text="${post.title}">Man must explore, and this is exploration at its greatest</h2>
                                 <h3 class="post-subtitle" th:text="${post.subtitle}">Problems look mighty small from 150 miles up</h3>
                             </a>
-                            <p class="post-meta" th:text="${post.author}">
-                                Posted by
-                                <a href="#!">Start Bootstrap</a>
-                                on September 24, 2023
+                            <p class="post-meta">
+                                Posted by:
+                                <span th:text="${post.author}">Start Bootstrap</span>,
+                                <span th:text="${#temporals.format(post.date, 'MMMM d, yyyy')}">date</span>
                             </p>
                         </div>
                     </div>

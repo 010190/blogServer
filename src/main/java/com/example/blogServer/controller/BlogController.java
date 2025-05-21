@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
@@ -51,12 +52,16 @@ public class BlogController {
     }
 
 
-    @GetMapping("/post")
-    public String post(Model model, @RequestParam(required = false) Long id) {
-        model.addAttribute("title", "Sample Post");
+    @GetMapping("/post/{id}")
+    public String post(Model model, @PathVariable Long id) {
+        Optional<Post> postOptional = Optional.ofNullable(postService.getPostById(id));
 
-        if (id != null) {
-            model.addAttribute("postId", id);
+        if (postOptional.isPresent()) {
+            Post post = postOptional.get();
+            model.addAttribute("post", post);
+            model.addAttribute("title", post.getTitle());
+        } else {
+            return "redirect:/";
         }
 
         return "post";
