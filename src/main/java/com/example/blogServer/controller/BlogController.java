@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.List;
@@ -36,37 +35,34 @@ public class BlogController {
 
         if (principal != null) {
             String username = principal.getName();
-            Optional<User> userOpt = userService.getUserByUsername(username);
-            userOpt.ifPresent(user -> {
+            User user = userService.findByUsername(username);
+            if (user != null) {
                 model.addAttribute("userId", user.getId());
                 model.addAttribute("currentUser", user);
-            });
+            }
         }
 
         return "index";
     }
+
     @GetMapping("/about")
     public String about(Model model) {
         model.addAttribute("title", "About Us");
         return "about";
     }
 
-
     @GetMapping("/post/{id}")
     public String post(Model model, @PathVariable Long id) {
-        Optional<Post> postOptional = Optional.ofNullable(postService.getPostById(id));
+        Post post = postService.getPostById(id);
 
-        if (postOptional.isPresent()) {
-            Post post = postOptional.get();
+        if (post != null) {
             model.addAttribute("post", post);
             model.addAttribute("title", post.getTitle());
+            return "post";
         } else {
             return "redirect:/";
         }
-
-        return "post";
     }
-
 
     @GetMapping("/contact")
     public String contact(Model model) {

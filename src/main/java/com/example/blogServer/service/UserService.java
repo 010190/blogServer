@@ -1,19 +1,12 @@
 package com.example.blogServer.service;
 
-import com.example.blogServer.entity.Post;
+import com.example.blogServer.dto.UserRegistrationDto;
 import com.example.blogServer.entity.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-import java.util.List;
-import java.util.Optional;
-
-public interface UserService {
-    User registerUser(User user);
-
-    boolean canCreatePost(User user);
-
-    boolean canModerateComment(User user);
-
-    List<Post> getUserPosts(Long userId);
-    Optional<User> getUserByUsername(String username);
+public interface UserService extends UserDetailsService {
+    User registerNewUser(UserRegistrationDto registrationDto) throws Exception;
+    boolean isUsernameAvailable(String username);
+    User findByUsername(String username);
 }
 

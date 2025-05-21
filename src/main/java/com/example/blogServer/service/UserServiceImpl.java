@@ -1,62 +1,71 @@
 package com.example.blogServer.service;
 
-import com.example.blogServer.entity.Post;
+import com.example.blogServer.dto.UserRegistrationDto;
 import com.example.blogServer.entity.User;
-import com.example.blogServer.entity.UserRole;
-import com.example.blogServer.repository.PostRepository;
 import com.example.blogServer.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.Optional;
-import java.util.List;
+
+import java.util.Collections;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    private PostRepository postRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
-    public User registerUser(User user) {
-        if (userRepository.existsByUsername(user.getUsername())) {
-            throw new RuntimeException("Użytkownik o takiej nazwie już istnieje.");
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Nie znaleziono użytkownika: " + username));
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                user.isEnabled(),
+                true, true, true,
+                Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"))
+        );
+    }
+
+    @Override
+    public User registerNewUser(UserRegistrationDto registrationDto) throws Exception {
+        if (!isUsernameAvailable(registrationDto.getUsername())) {
+            throw new Exception("Nazwa użytkownika jest już zajęta");
         }
-        if (user.getRole() == null) {
-            user.setRole(UserRole.READER);
+
+        if (!registrationDto.getPassword().equals(registrationDto.getConfirmPassword())) {
+            throw new Exception("Hasła nie są zgodne");
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        User user = new User();
+        user.setUsername(registrationDto.getUsername());
+        user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
+        user.setName(registrationDto.getName());
+        user.setEnabled(true);
+
         return userRepository.save(user);
     }
 
     @Override
-    public boolean canCreatePost(User user) {
-        UserRole role = user.getRole();
-        return role == UserRole.ADMIN || role == UserRole.CONTENT_CREATOR;
+    public boolean isUsernameAvailable(String username) {
+        return !userRepository.existsByUsername(username);
     }
 
     @Override
-    public boolean canModerateComment(User user) {
-        return user.getRole() == UserRole.ADMIN;
-    }
-
-    @Override
-    public List<Post> getUserPosts(Long userId) {
-        userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("Użytkownik nie znaleziony! id=" + userId));
-        return postRepository.findByPostedBy(userId);
-    }
-
-    @Override
-    public Optional<User> getUserByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElse(null);
     }
 }
 
