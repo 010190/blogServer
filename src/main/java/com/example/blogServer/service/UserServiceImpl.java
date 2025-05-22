@@ -3,6 +3,7 @@ package com.example.blogServer.service;
 import com.example.blogServer.dto.UserRegistrationDto;
 import com.example.blogServer.entity.User;
 import com.example.blogServer.repository.UserRepository;
+import com.example.blogServer.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,18 +25,13 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Nie znaleziono użytkownika: " + username));
 
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(),
-                user.getPassword(),
-                user.isEnabled(),
-                true, true, true,
-                Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"))
-        );
+        return new CustomUserDetails(user);
     }
 
     @Override

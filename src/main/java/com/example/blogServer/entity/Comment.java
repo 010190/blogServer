@@ -19,8 +19,18 @@ public class Comment {
 
     private String postedBy;
 
+    private String authorName;
+
+    @Column(name = "user_id")
+    private Long userId;
+
     @ManyToOne
-    @JoinColumn( name = "post_id", nullable = false)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id", nullable = false)
     private Post post;
+
 }
 

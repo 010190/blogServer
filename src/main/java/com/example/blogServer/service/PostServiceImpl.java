@@ -92,5 +92,18 @@ public class PostServiceImpl implements PostService {
     public List<Post> getUserPosts(Long userId) {
         return postRepository.findByPostedBy(userId);
     }
+
+    @Override
+    public boolean deletePost(Long postId, Long userId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new EntityNotFoundException("Post o ID " + postId + " nie został znaleziony"));
+
+        if (userId == 1 || post.getPostedBy().equals(userId)) {
+            postRepository.delete(post);
+            return true;
+        }
+
+        return false;
+    }
 }
 

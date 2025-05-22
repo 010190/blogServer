@@ -75,22 +75,27 @@
         </header>
         <!-- Main Content-->
         <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-10 col-lg-8 col-xl-7">
-                    <div th:each="post: ${posts}" class="post-container">
-                        <div class="post-preview">
-                            <a th:href="@{/post/{id}(id=${post.id})}">
+                    <div class="row gx-4 gx-lg-5 justify-content-center">
+                        <div class="col-md-10 col-lg-8 col-xl-7">
+                            <div th:each="post: ${posts}" class="post-container">
+                                <div class="post-preview">
+                                    <a th:href="@{/post/{id}(id=${post.id})}">
 
-                            <h2 class="post-title" th:text="${post.title}">Man must explore, and this is exploration at its greatest</h2>
-                                <h3 class="post-subtitle" th:text="${post.subtitle}">Problems look mighty small from 150 miles up</h3>
-                            </a>
-                            <p class="post-meta">
-                                Posted by:
-                                <span th:text="${post.author}">Start Bootstrap</span>,
-                                <span th:text="${#temporals.format(post.date, 'MMMM d, yyyy')}">date</span>
-                            </p>
-                        </div>
-                    </div>
+                                        <h2 class="post-title" th:text="${post.title}">Man must explore, and this is exploration at its greatest</h2>
+                                        <h3 class="post-subtitle" th:text="${post.subtitle}">Problems look mighty small from 150 miles up</h3>
+                                    </a>
+                                    <p class="post-meta">
+                                        Posted by:
+                                        <span th:text="${post.author}">Start Bootstrap</span>,
+                                        <span th:text="${#temporals.format(post.date, 'MMMM d, yyyy')}">date</span>
+                                        <a th:if="${currentUser != null && (currentUser.id == 1 || currentUser.id == post.postedBy)}"
+                                           th:href="@{'/api/posts/' + ${post.id} + '/delete?userId=' + ${currentUser.id}}"
+                                           class="delete-link"
+                                           onclick="return confirm('Czy na pewno chcesz usunąć ten post?');">X</a>
+
+                                    </p>
+                                </div>
+                            </div>
 
                     <!-- Divider-->
                     <hr class="my-4" />

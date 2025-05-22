@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
@@ -21,156 +22,172 @@
     <!-- Custom CSS -->
     <link th:href="@{/css/styles.css}" rel="stylesheet" />
     <script th:src="@{/js/scripts.js}"></script>
-
 </head>
-    <body>
-    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
-        <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" th:href="@{/}">Start Bootstrap</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                Menu
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto py-4 py-lg-0">
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/about}">About</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/contact}">Contact</a></li>
-                    <!-- Menu dla niezalogowanych -->
-                    <li class="nav-item" sec:authorize="!isAuthenticated()">
-                        <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/auth/login}">Log in </a>
-                    </li>
-                    <li class="nav-item" sec:authorize="!isAuthenticated()">
-                        <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/auth/register}">Sign in </a>
-                    </li>
-                    <li class="nav-item" sec:authorize="isAuthenticated()">
-                        <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/posts/create}">Create post</a>
-                    </li>
-
-                    <li class="nav-item" sec:authorize="isAuthenticated()">
-                        <form th:action="@{/logout}" method="post" style="display: inline; margin: 0; padding: 0;">
-                            <button type="submit" class="nav-link px-lg-3 py-3 py-lg-4 btn btn-link" style="background: none; border: none; color: white; font-family: inherit; font-size: inherit; text-transform: inherit; font-weight: inherit;">
-                                Log out
-                            </button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Page Header-->
-        <header class="masthead" th:style="|background-image: url(${post.img})|">
-            <div class="container position-relative px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-                        <div class="post-heading">
-                            <h1 th:text="${post.title}">title</h1>
-                            <h2 class="subheading" th:text="${post.subtitle}">subtitle</h2>
-                            <span class="meta">
-                                Posted by
-                                <a th:text="${post.author}">author</a>
-                                on <span th:text="${#temporals.format(post.date, 'd MMMM yyyy')}">date</span>
-
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <!-- Post Content-->
-        <article class="mb-4">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7" th:text="${post.content}">
-                        post content
-                    </div>
-                </div>
-            </div>
-        </article>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
     <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" th:href="@{/}">Start Bootstrap</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/}">Home</a></li>
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/about}">About</a></li>
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/contact}">Contact</a></li>
+                <!-- Menu dla niezalogowanych -->
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/auth/login}">Log in </a>
+                </li>
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/auth/register}">Sign in </a>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/posts/create}">Create post</a>
+                </li>
+
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post" style="display: inline; margin: 0; padding: 0;">
+                        <button type="submit" class="nav-link px-lg-3 py-3 py-lg-4 btn btn-link" style="background: none; border: none; color: white; font-family: inherit; font-size: inherit; text-transform: inherit; font-weight: inherit;">
+                            Log out
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Page Header-->
+<header class="masthead" th:style="|background-image: url(${post.img})|">
+    <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
-                <h3 class="mt-5 mb-4">Komentarze</h3>
-
-                <div class="card my-4" sec:authorize="isAuthenticated()">
-                    <div class="card-body">
-                        <h5 class="card-title">Dodaj komentarz</h5>
-                        <form id="commentForm" th:action="@{/post/{id}/comment(id=${post.id})}" method="post">
-                            <div class="form-group mb-3">
-                                <textarea class="form-control" name="content" rows="3" required placeholder="Treść komentarza..."></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Dodaj komentarz</button>
-                        </form>
-
-                    </div>
-                </div>
-
-                <!-- Informacja dla niezalogowanych użytkowników -->
-                <div class="alert alert-info" sec:authorize="!isAuthenticated()">
-                    <p>Zaloguj się, aby dodać komentarz.</p>
-                    <a th:href="@{/auth/login}" class="btn btn-sm btn-primary">Zaloguj się</a>
-                </div>
-
-                <!-- Lista komentarzy -->
-                <div class="comments-list mt-4">
-                    <div th:if="${comments != null && !comments.isEmpty()}">
-                        <div class="card mb-3" th:each="comment : ${comments}">
-                            <div class="card-body">
-                                <h6 class="card-subtitle mb-2 text-muted">
-                                    <span th:text="${comment.postedBy}">Użytkownik</span>
-                                    <small th:text="${#dates.format(comment.createdAt, 'dd-MM-yyyy HH:mm')}">Data</small>
-                                </h6>
-                                <p class="card-text" th:text="${comment.content}">Treść komentarza</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div th:if="${comments == null || comments.isEmpty()}" class="alert alert-light">
-                        Brak komentarzy. Bądź pierwszy!
-                    </div>
+                <div class="post-heading">
+                    <h1 th:text="${post.title}">title</h1>
+                    <h2 class="subheading" th:text="${post.subtitle}">subtitle</h2>
+                    <span class="meta">
+                            Posted by
+                            <a th:text="${post.author}">author</a>
+                            on <span th:text="${#temporals.format(post.date, 'd MMMM yyyy')}">date</span>
+                        <!-- Bezpieczne sprawdzenie czy zalogowany użytkownik może edytować post -->
+                            <a th:if="${#authentication.isAuthenticated() && (#authentication.principal instanceof T(com.example.blogServer.security.CustomUserDetails) ? #authentication.principal.id : -1) == post.postedBy ||
+                                      (#authentication.principal instanceof T(com.example.blogServer.security.CustomUserDetails) ? #authentication.principal.id : -1) == 1}"
+                               th:href="@{/posts/{id}/edit(id=${post.id})}" class="btn btn-primary">
+                                Edit
+                            </a>
+                        <!-- Bezpieczne sprawdzenie czy zalogowany użytkownik może usunąć post -->
+                            <a th:if="${#authentication.isAuthenticated() && (#authentication.principal instanceof T(com.example.blogServer.security.CustomUserDetails) ? #authentication.principal.id : -1) == post.postedBy ||
+                                      (#authentication.principal instanceof T(com.example.blogServer.security.CustomUserDetails) ? #authentication.principal.id : -1) == 1}"
+                               th:href="@{/posts/{id}/delete(id=${post.id})}" class="btn btn-danger">
+                                Delete
+                            </a>
+                        </span>
                 </div>
             </div>
         </div>
     </div>
-        <!-- Footer-->
-        <footer class="border-top">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-                        <ul class="list-inline text-center">
-                            <li class="list-inline-item">
-                                <a href="#!">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#!">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#!">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
-                        <div class="small text-center text-muted fst-italic">Copyright &copy; Your Website 2023</div>
+</header>
+
+<!-- Post Content-->
+<article class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7" th:utext="${post.content}">
+                <!-- Treść postu jest renderowana przez th:utext -->
+            </div>
+        </div>
+    </div>
+</article>
+
+<!-- Comments Section -->
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <h2 class="section-heading">Comments</h2>
+
+            <!-- Form for adding comments (only for authenticated users) -->
+            <div sec:authorize="isAuthenticated()" class="mb-5">
+                <form th:action="@{/comments/create}" method="post">
+                    <input type="hidden" name="postId" th:value="${post.id}" />
+                    <input type="hidden" name="userId" th:value="${#authentication.principal instanceof T(com.example.blogServer.security.CustomUserDetails) ? #authentication.principal.id : -1}" />
+                    <div class="form-group">
+                        <textarea name="content" class="form-control" rows="3" placeholder="Add a comment..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2">Submit</button>
+                </form>
+            </div>
+
+            <!-- List of comments -->
+            <div th:if="${comments != null && !comments.isEmpty()}" class="comments-list">
+                <div th:each="comment : ${comments}" class="comment mb-4">
+                    <div class="comment-header d-flex justify-content-between">
+                        <strong th:text="${comment.authorName}">User</strong>
+                        <span th:text="${#dates.format(comment.createdAt, 'd MMMM yyyy HH:mm')}">Date</span>
+                    </div>
+                    <div class="comment-body" th:text="${comment.content}">
+                        Comment content
+                    </div>
+                    <!-- Delete comment button (only for author, post author or admin) -->
+                    <div th:if="${#authentication.isAuthenticated() && (#authentication.principal instanceof T(com.example.blogServer.security.CustomUserDetails) ? #authentication.principal.id : -1) == comment.userId ||
+                                (#authentication.principal instanceof T(com.example.blogServer.security.CustomUserDetails) ? #authentication.principal.id : -1) == post.postedBy ||
+                                (#authentication.principal instanceof T(com.example.blogServer.security.CustomUserDetails) ? #authentication.principal.id : -1) == 1}"
+                         class="comment-actions mt-1">
+                        <form th:action="@{/comments/{commentId}(commentId=${comment.id})}" th:method="delete" method="post">
+                            <input type="hidden" name="postId" th:value="${post.id}" />
+                            <input type="hidden" name="_method" value="delete"/>
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+
                     </div>
                 </div>
             </div>
-        </footer>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="../../../../../../../../startbootstrap-clean-blog-gh-pages%20(1)/startbootstrap-clean-blog-gh-pages/js/scripts.js"></script>
-    </body>
+            <div th:if="${comments == null || comments.isEmpty()}" class="no-comments">
+                <p>No comments yet. Be the first to comment!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer-->
+<footer class="border-top">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <ul class="list-inline text-center">
+                    <li class="list-inline-item">
+                        <a href="#!">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#!">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#!">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="small text-center text-muted fst-italic">Copyright &copy; Your Website 2023</div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

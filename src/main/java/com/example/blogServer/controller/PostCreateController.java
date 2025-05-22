@@ -44,7 +44,6 @@ public class PostCreateController {
         post.setAuthor(username);
         post.setPostedBy(currentUser.getId());
 
-        // Domyślny obraz, jeśli nie został podany
         if (img == null || img.isEmpty()) {
             post.setImg("/assets/img/post-bg.jpg");
         } else {

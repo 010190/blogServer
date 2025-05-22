@@ -2,8 +2,10 @@ package com.example.blogServer.controller;
 
 import com.example.blogServer.entity.Comment;
 import com.example.blogServer.entity.Post;
+import com.example.blogServer.entity.User;
 import com.example.blogServer.service.CommentService;
 import com.example.blogServer.service.PostService;
+import com.example.blogServer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.List;
@@ -24,41 +27,38 @@ public class BlogController {
     @Autowired
     private PostService postService;
 
-    @GetMapping("/")
-    public String home(Model model, Principal principal) {
+    @Autowired
+    private UserService userService;
+
+    private void addUserToModel(Model model, Principal principal) {
         if (principal != null) {
             model.addAttribute("loggedIn", true);
             model.addAttribute("username", principal.getName());
+
+            User currentUser = userService.findByUsername(principal.getName());
+            model.addAttribute("currentUser", currentUser);
         } else {
             model.addAttribute("loggedIn", false);
         }
+    }
 
+    @GetMapping("/")
+    public String home(Model model, Principal principal) {
+        addUserToModel(model, principal);
         List<Post> posts = postService.getAllPosts();
-
         model.addAttribute("posts", posts);
-
         return "index";
     }
 
     @GetMapping("/about")
     public String about(Model model, Principal principal) {
-        if (principal != null) {
-            model.addAttribute("loggedIn", true);
-            model.addAttribute("username", principal.getName());
-        } else {
-            model.addAttribute("loggedIn", false);
-        }
+        addUserToModel(model, principal);
         return "about";
     }
 
     @GetMapping("/post/{id}")
     public String post(Model model, @PathVariable Long id, Principal principal) {
-        if (principal != null) {
-            model.addAttribute("loggedIn", true);
-            model.addAttribute("username", principal.getName());
-        } else {
-            model.addAttribute("loggedIn", false);
-        }
+        addUserToModel(model, principal);
 
         Post post = postService.getPostById(id);
         model.addAttribute("post", post);
@@ -67,34 +67,53 @@ public class BlogController {
         model.addAttribute("comments", comments);
 
 
+        if (principal != null) {
+            User currentUser = userService.findByUsername(principal.getName());
+            model.addAttribute("currentUserId", currentUser.getId());
+            model.addAttribute("isAdmin", currentUser.getId() == 1);
+            model.addAttribute("isPostAuthor", currentUser.getId().equals(post.getPostedBy()));
+        } else {
+            model.addAttribute("currentUserId", 0L);
+            model.addAttribute("isAdmin", false);
+            model.addAttribute("isPostAuthor", false);
+        }
 
         return "post";
     }
 
+
     @PostMapping("/post/{id}/comment")
     public String addComment(@PathVariable Long id,
                              @RequestParam String content,
-                             Principal principal) {
+                             Principal principal,
+                             RedirectAttributes redirectAttributes) {
         if (principal != null) {
             String username = principal.getName();
             try {
-                commentService.createComment(id, username, content);
+                User user = userService.findByUsername(username);
+                if (user != null) {
+                    commentService.createComment(id, user.getId(), content);
+                    redirectAttributes.addFlashAttribute("message", "Komentarz został dodany pomyślnie.");
+                } else {
+                    redirectAttributes.addFlashAttribute("error", "Nie znaleziono użytkownika.");
+                }
             } catch (Exception e) {
+                System.err.println("Błąd podczas dodawania komentarza: " + e.getMessage());
+                redirectAttributes.addFlashAttribute("error", "Wystąpił błąd podczas dodawania komentarza: " + e.getMessage());
             }
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Musisz być zalogowany, aby dodać komentarz.");
         }
 
         return "redirect:/post/" + id;
     }
 
 
+
+
     @GetMapping("/contact")
     public String contact(Model model, Principal principal) {
-        if (principal != null) {
-            model.addAttribute("loggedIn", true);
-            model.addAttribute("username", principal.getName());
-        } else {
-            model.addAttribute("loggedIn", false);
-        }
+        addUserToModel(model, principal);
         return "contact";
     }
 }

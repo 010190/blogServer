@@ -1,6 +1,7 @@
 package com.example.blogServer.controller;
 
 import com.example.blogServer.entity.Post;
+import com.example.blogServer.service.CommentService;
 import com.example.blogServer.service.PostService;
 import com.example.blogServer.service.StatisticsService;
 import jakarta.persistence.EntityNotFoundException;
@@ -9,24 +10,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
 
 @Controller
-@RestController
 @RequestMapping("/api/posts")
 public class PostController {
 
     private final PostService postService;
     private final StatisticsService statisticsService;
 
+    @Autowired
+    private CommentService commentService;
 
     @Autowired
     public PostController(PostService postService,
                           StatisticsService statisticsService) {
         this.postService = postService;
         this.statisticsService = statisticsService;
+
+
     }
 
     @PostMapping
@@ -90,6 +95,53 @@ public class PostController {
     @GetMapping("/user/{userId}/likes")
     public ResponseEntity<Integer> getTotalUserLikes(@PathVariable Long userId) {
         return ResponseEntity.ok(postService.getTotalUserLikes(userId));
+    }
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<?> deletePost(
+            @PathVariable Long postId,
+            @RequestParam Long userId
+    ) {
+        try {
+            // Najpierw usuwamy wszystkie komentarze powiązane z postem
+            commentService.deleteByPostId(postId);
+
+            // Następnie usuwamy sam post
+            boolean deleted = postService.deletePost(postId, userId);
+
+            if (deleted) {
+                return ResponseEntity.ok("Post został pomyślnie usunięty.");
+            } else {
+                return ResponseEntity.status(403).body("Brak uprawnień do usunięcia tego posta.");
+            }
+        } catch (EntityNotFoundException ex) {
+            return ResponseEntity.status(404).body(ex.getMessage());
+        } catch (Exception ex) {
+            return ResponseEntity.status(500).body("Wystąpił błąd podczas usuwania posta: " + ex.getMessage());
+        }
+    }
+
+    @GetMapping("/{postId}/delete")
+    public String deletePostByLink(
+            @PathVariable Long postId,
+            @RequestParam Long userId,
+            RedirectAttributes redirectAttributes) {
+        try {
+            commentService.deleteByPostId(postId);
+
+            boolean deleted = postService.deletePost(postId, userId);
+
+            if (deleted) {
+                redirectAttributes.addFlashAttribute("message", "Post został pomyślnie usunięty.");
+            } else {
+                redirectAttributes.addFlashAttribute("error", "Brak uprawnień do usunięcia tego posta.");
+            }
+        } catch (EntityNotFoundException ex) {
+            redirectAttributes.addFlashAttribute("error", ex.getMessage());
+        } catch (Exception ex) {
+            redirectAttributes.addFlashAttribute("error", "Wystąpił błąd podczas usuwania posta: " + ex.getMessage());
+        }
+        return "redirect:/";
     }
 }
 

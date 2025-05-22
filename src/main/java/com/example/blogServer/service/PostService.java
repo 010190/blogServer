@@ -22,4 +22,7 @@ public interface PostService {
     int getTotalUserLikes(Long userId);
 
     List<Post> getUserPosts(Long userId);
+
+    boolean deletePost(Long postId, Long userId);
+
 }
