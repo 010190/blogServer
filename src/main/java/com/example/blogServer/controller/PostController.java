@@ -1,10 +1,7 @@
 package com.example.blogServer.controller;
 
 import com.example.blogServer.entity.Post;
-import com.example.blogServer.service.CommentService;
-import com.example.blogServer.service.LikeService;
-import com.example.blogServer.service.PostService;
-import com.example.blogServer.service.StatisticsService;
+import com.example.blogServer.service.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.Transient;
 import jakarta.transaction.Transactional;
@@ -34,13 +31,17 @@ public class PostController {
     private LikeService likeService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     public PostController(PostService postService,
                           StatisticsService statisticsService,
-                          LikeService likeService) {
+                          LikeService likeService,
+                          UserService userService) {
         this.postService = postService;
         this.statisticsService = statisticsService;
         this.likeService = likeService;
-
+        this.userService = userService;
 
     }
 
@@ -109,16 +110,18 @@ public class PostController {
 
     @PostMapping("/{postId}/delete")
     @Transactional
-    public String deletePost(
+    public String deletePost(Model model,
             @PathVariable Long postId,
             Principal principal,
-            @RequestParam Long userId,
+
             RedirectAttributes redirectAttributes)  {
         try {
+            Long loggedUserId = userService.findUserIdByUsername(principal.getName());
+            model.addAttribute("loggedUserId", loggedUserId);
             commentService.deleteByPostId(postId);
             likeService.removeLikesByPostId(postId);
             statisticsService.deleteByPostId(postId);
-            boolean deleted = postService.deletePost(postId, userId);
+            boolean deleted = postService.deletePost(postId, loggedUserId);
 
             if (deleted) {
                 redirectAttributes.addFlashAttribute("message", "Post został pomyślnie usunięty.");

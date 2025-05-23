@@ -8,5 +8,7 @@ public interface UserService extends UserDetailsService {
     User registerNewUser(UserRegistrationDto registrationDto) throws Exception;
     boolean isUsernameAvailable(String username);
     User findByUsername(String username);
+
+    Long findUserIdByUsername(String username);
 }
 

@@ -95,18 +95,19 @@
                             </div>
 
                             <div  style="display: flex; gap: 8px; align-items: center;">
-                                <form th:action="@{/api/posts/{postId}/delete(postId=${post.id})}"
+                                <form th:if="${loggedUserId == 1} or ${loggedUserId == post.postedBy}"
+                                      th:action="@{/api/posts/{postId}/delete(postId=${post.id})}"
                                       method="post"
                                       onsubmit="return confirm('Czy na pewno chcesz usunąć ten post?');">
-                                    <input type="hidden" name="userId" th:value="${post.postedBy}" />
                                     <button type="submit" class="btn btn-outline-danger">
                                         <i class="fas fa-trash-alt"></i> Usuń post
                                     </button>
                                 </form>
 
 
+
                             </div>
-                            </div>
+                        </div>
                     </div>
 
 
