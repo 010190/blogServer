@@ -14,5 +14,9 @@ public interface StatisticsService {
 
     Statistics getAggregatedStatistics(Long postId);
     void deleteByPostId(Long postId);
+
+    void removeLike(Long postId);
+
+    void removeComment(Long postId);
 }
 

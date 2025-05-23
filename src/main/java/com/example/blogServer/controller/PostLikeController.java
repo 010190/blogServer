@@ -47,6 +47,7 @@ public class PostLikeController {
             boolean alreadyLiked = likeService.hasUserLikedPost(postId, userId);
             if (alreadyLiked) {
                 likeService.unlikePost(postId, userId);
+                statisticsService.removeLike(postId);
             } else {
                 likeService.likePost(postId, userId);
                 statisticsService.recordLike(postId);  // ← TU

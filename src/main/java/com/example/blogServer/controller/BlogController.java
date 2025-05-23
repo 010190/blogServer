@@ -56,9 +56,12 @@ public class BlogController {
         model.addAttribute("posts", posts);
         List<Tag> tags = tagService.getAllTags();
         model.addAttribute("tags", tags);
-        Long loggedUserId = userService.findUserIdByUsername(principal.getName());
-
+        Long loggedUserId = null;
+        if (principal != null) {
+            loggedUserId = userService.findUserIdByUsername(principal.getName());
+        }
         model.addAttribute("loggedUserId", loggedUserId);
+
         Map<Long, Statistics> postStats = new HashMap<>();
         for (Post post : posts) {
             Statistics stats = statisticsService.getAggregatedStatistics(post.getId());
@@ -87,8 +90,12 @@ public class BlogController {
             model.addAttribute("userHasLiked", hasLiked);
             model.addAttribute("currentUserId", user.getId());
             addUserToModel(model, principal);
-            Long loggedUserId = userService.findUserIdByUsername(principal.getName());
+            Long loggedUserId = null;
+            if (principal != null) {
+                loggedUserId = userService.findUserIdByUsername(principal.getName());
+            }
             model.addAttribute("loggedUserId", loggedUserId);
+
         } else {
             model.addAttribute("userHasLiked", false);
             model.addAttribute("currentUserId", 0);

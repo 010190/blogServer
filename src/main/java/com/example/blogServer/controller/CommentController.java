@@ -67,6 +67,7 @@ public class CommentController {
             try {
                 boolean deleted = commentService.deleteComment(commentId, userId);
                 if (deleted) {
+                    statisticsService.removeComment(postId);
                     redirectAttributes.addFlashAttribute("successMessage", "Komentarz został usunięty");
                 } else {
                     redirectAttributes.addFlashAttribute("errorMessage", "Brak uprawnień do usunięcia tego komentarza");
