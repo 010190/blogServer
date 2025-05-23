@@ -10813,3 +10813,33 @@ header.masthead .post-heading .meta a {
 .navbar-nav .nav-button:hover {
   color: #0085A1;
 }
+.post-likes {
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+  color: #6c757d;
+}
+
+.like-button {
+  color: #6c757d;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+
+.like-button:hover {
+  color: #dc3545;
+}
+
+.like-button.liked {
+  color: #dc3545;
+}
+
+.like-button-login {
+  color: #6c757d;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.like-button-login:hover {
+  text-decoration: underline;
+}

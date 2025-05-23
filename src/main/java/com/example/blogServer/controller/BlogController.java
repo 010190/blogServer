@@ -4,6 +4,7 @@ import com.example.blogServer.entity.Comment;
 import com.example.blogServer.entity.Post;
 import com.example.blogServer.entity.User;
 import com.example.blogServer.service.CommentService;
+import com.example.blogServer.service.LikeService;
 import com.example.blogServer.service.PostService;
 import com.example.blogServer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class BlogController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private LikeService likeService;
 
     private void addUserToModel(Model model, Principal principal) {
         if (principal != null) {
@@ -58,28 +62,28 @@ public class BlogController {
 
     @GetMapping("/post/{id}")
     public String post(Model model, @PathVariable Long id, Principal principal) {
-        addUserToModel(model, principal);
-
         Post post = postService.getPostById(id);
         model.addAttribute("post", post);
+
+        if (principal != null) {
+            User user = userService.findByUsername(principal.getName());
+            boolean hasLiked = likeService.hasUserLikedPost(user.getId(), id);
+            model.addAttribute("userHasLiked", hasLiked);
+
+            addUserToModel(model, principal);
+        } else {
+            model.addAttribute("userHasLiked", false);
+        }
+
+        long likeCount = likeService.countLikes(id);
+        model.addAttribute("likeCount", likeCount);
 
         List<Comment> comments = commentService.getCommentsByPostId(id);
         model.addAttribute("comments", comments);
 
-
-        if (principal != null) {
-            User currentUser = userService.findByUsername(principal.getName());
-            model.addAttribute("currentUserId", currentUser.getId());
-            model.addAttribute("isAdmin", currentUser.getId() == 1);
-            model.addAttribute("isPostAuthor", currentUser.getId().equals(post.getPostedBy()));
-        } else {
-            model.addAttribute("currentUserId", 0L);
-            model.addAttribute("isAdmin", false);
-            model.addAttribute("isPostAuthor", false);
-        }
-
         return "post";
     }
+
 
 
     @PostMapping("/post/{id}/comment")
