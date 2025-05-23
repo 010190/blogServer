@@ -72,10 +72,11 @@ public class BlogController {
             User user = userService.findByUsername(principal.getName());
             boolean hasLiked = likeService.hasUserLikedPost(user.getId(), id);
             model.addAttribute("userHasLiked", hasLiked);
-
+            model.addAttribute("currentUserId", user.getId());
             addUserToModel(model, principal);
         } else {
             model.addAttribute("userHasLiked", false);
+            model.addAttribute("currentUserId", 0);
         }
 
         long likeCount = likeService.countLikes(id);

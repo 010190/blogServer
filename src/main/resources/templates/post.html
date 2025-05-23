@@ -81,17 +81,30 @@
                         <div class="like-counter">
                             <span th:text="${likeCount}">0</span> polubień
                         </div>
+                        <div class="d-flex gap-2 align-items-center">
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                <form th:action="@{/likes}" method="post" class="mt-2">
+                                    <input type="hidden" name="postId" th:value="${post.id}" />
+                                    <input type="hidden" name="redirectUrl" th:value="@{/post/{id}(id=${post.id})}" />
+                                    <button type="submit"
+                                            th:class="${userHasLiked} ? 'btn btn-light' : 'btn btn-outline-light'">
+                                        <i class="fas fa-heart"></i>
+                                        <span th:text="${userHasLiked} ? 'Usuń polubienie' : 'Polub'"></span>
+                                    </button>
+                                </form>
+                            </div>
 
-                        <form th:action="@{/likes}" method="post" class="mt-2">
-                            <input type="hidden" name="postId" th:value="${post.id}" />
-                            <input type="hidden" name="redirectUrl" th:value="@{/post/{id}(id=${post.id})}" />
-                            <button type="submit"
-                                    th:class="${userHasLiked} ? 'btn btn-light' : 'btn btn-outline-light'">
-                                <i class="fas fa-heart"></i>
-                                <span th:text="${userHasLiked} ? 'Usuń polubienie' : 'Polub'"></span>
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                        <form th:if="${post.postedBy == currentUserId or currentUserId == 1}"
+                              th:action="@{/posts/{postId}/delete(postId=${post.id}, userId=${currentUserId})}"
+                              method="get"
+                              onsubmit="return confirm('Czy na pewno chcesz usunąć ten post?');">
+                            <button type="submit" class="btn btn-outline-danger">
+                                <i class="fas fa-trash-alt"></i> Usuń post
                             </button>
                         </form>
-
+                        </div>
+                            </div>
                     </div>
 
 
