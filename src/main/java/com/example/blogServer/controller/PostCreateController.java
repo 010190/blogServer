@@ -10,6 +10,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.security.Principal;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/posts")
@@ -30,7 +36,10 @@ public class PostCreateController {
     public String createPost(@RequestParam String title,
                              @RequestParam String subtitle,
                              @RequestParam String content,
-                             @RequestParam(required = false) String img) {
+                             @RequestParam(required = false) String img,
+                             @RequestParam(required = false) String tags,
+                             Principal principal,
+                             RedirectAttributes redirectAttributes) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -52,6 +61,18 @@ public class PostCreateController {
 
         Post savedPost = postService.savePost(post);
 
+        if (tags != null && !tags.trim().isEmpty()) {
+            List<String> tagNames = Arrays.stream(tags.split(","))
+                    .map(String::trim)
+                    .filter(s -> !s.isEmpty())
+                    .collect(Collectors.toList());
+
+            postService.addTagsToPost(savedPost.getId(), tagNames);
+        }
+
+
+
         return "redirect:/post/" + savedPost.getId();
     }
+
 }

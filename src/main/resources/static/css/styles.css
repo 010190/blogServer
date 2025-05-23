@@ -10843,3 +10843,26 @@ header.masthead .post-heading .meta a {
 .like-button-login:hover {
   text-decoration: underline;
 }
+.tags {
+  margin-bottom: 8px;
+}
+
+.tag-label {
+  display: inline-block;
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 3px 10px;
+  margin-right: 6px;
+  border-radius: 15px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: lowercase;
+  cursor: default;
+  user-select: none;
+  transition: background-color 0.3s ease;
+}
+
+.tag-label:hover {
+  background-color: #d1e7fd;
+  color: #1a73e8;
+}

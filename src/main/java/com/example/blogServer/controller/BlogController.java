@@ -2,11 +2,9 @@ package com.example.blogServer.controller;
 
 import com.example.blogServer.entity.Comment;
 import com.example.blogServer.entity.Post;
+import com.example.blogServer.entity.Tag;
 import com.example.blogServer.entity.User;
-import com.example.blogServer.service.CommentService;
-import com.example.blogServer.service.LikeService;
-import com.example.blogServer.service.PostService;
-import com.example.blogServer.service.UserService;
+import com.example.blogServer.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +32,9 @@ public class BlogController {
     @Autowired
     private LikeService likeService;
 
+    @Autowired
+    private TagService tagService;
+
     private void addUserToModel(Model model, Principal principal) {
         if (principal != null) {
             model.addAttribute("loggedIn", true);
@@ -51,6 +52,8 @@ public class BlogController {
         addUserToModel(model, principal);
         List<Post> posts = postService.getAllPosts();
         model.addAttribute("posts", posts);
+        List<Tag> tags = tagService.getAllTags();
+        model.addAttribute("tags", tags);
         return "index";
     }
 

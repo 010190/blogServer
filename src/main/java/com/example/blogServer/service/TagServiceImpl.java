@@ -31,5 +31,8 @@ public class TagServiceImpl implements TagService {
                 .orElseThrow(() -> new RuntimeException("Tag o ID " + tagId + " nie istnieje"));
         return List.copyOf(tag.getPosts());
     }
-
+    @Override
+    public void deleteTag(Long id) {
+        tagRepo.deleteById(id);
+    }
 }

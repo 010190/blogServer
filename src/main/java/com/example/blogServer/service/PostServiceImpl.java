@@ -1,8 +1,10 @@
 package com.example.blogServer.service;
 
 import com.example.blogServer.entity.Post;
+import com.example.blogServer.entity.Tag;
 import com.example.blogServer.entity.User;
 import com.example.blogServer.repository.PostRepository;
+import com.example.blogServer.repository.TagRepository;
 import com.example.blogServer.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -26,6 +30,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private StatisticsService statisticsService;
+
+    @Autowired
+    private TagRepository tagRepository;
 
     @Override
     public Post savePost(Post post) {
@@ -104,6 +111,20 @@ public class PostServiceImpl implements PostService {
         }
 
         return false;
+    }
+
+    @Override
+    public void addTagsToPost(Long postId, List<String> tagNames) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+
+        Set<Tag> tags = tagNames.stream()
+                .map(name -> tagRepository.findByTitle(name)
+                        .orElseGet(() -> tagRepository.save(new Tag(name))))
+                .collect(Collectors.toSet());
+
+        post.setTags(tags);
+        postRepository.save(post);
     }
 }
 

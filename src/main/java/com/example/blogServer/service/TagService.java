@@ -8,4 +8,5 @@ public interface TagService {
     Tag createTag(String title);
     List<Tag> getAllTags();
     List<Post> getPostsByTag(Long tagId);
+    void deleteTag(Long id);
 }

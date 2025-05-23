@@ -56,6 +56,8 @@
                             </a>
                             <form id="logout-form" th:action="@{/logout}" method="post" style="display: none;"></form>
                         </li>
+
+
                     </ul>
                 </div>
             </div>
@@ -80,6 +82,12 @@
                                 <div class="post-preview">
                                     <a th:href="@{/post/{id}(id=${post.id})}">
 
+                                        <div class="tags">
+                <span th:each="tag : ${post.tags}" th:text="${tag.title}" class="tag-label"
+                      style="background:#eee; padding:2px 6px; margin-right:5px; border-radius:4px; font-size:0.85em;">
+                </span>
+                                        </div>
+
                                         <h2 class="post-title" th:text="${post.title}">Man must explore, and this is exploration at its greatest</h2>
                                         <h3 class="post-subtitle" th:text="${post.subtitle}">Problems look mighty small from 150 miles up</h3>
                                     </a>
@@ -96,7 +104,8 @@
                                 </div>
                             </div>
 
-                    <!-- Divider-->
+
+                            <!-- Divider-->
                     <hr class="my-4" />
                     <!-- Post preview-->
 

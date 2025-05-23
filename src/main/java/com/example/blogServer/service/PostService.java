@@ -25,4 +25,7 @@ public interface PostService {
 
     boolean deletePost(Long postId, Long userId);
 
+    void addTagsToPost(Long postId, List<String> tagNames);
+
+
 }
