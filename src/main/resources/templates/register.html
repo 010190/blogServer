@@ -45,11 +45,10 @@
                 </li>
 
                 <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <form th:action="@{/logout}" method="post" style="display: inline; margin: 0; padding: 0;">
-                        <button type="submit" class="nav-link px-lg-3 py-3 py-lg-4 btn btn-link" style="background: none; border: none; color: white; font-family: inherit; font-size: inherit; text-transform: inherit; font-weight: inherit;">
-                            Log out
-                        </button>
-                    </form>
+                    <a href="#" class="nav-link px-lg-3 py-3 py-lg-4" onclick="document.getElementById('logout-form').submit(); return false;">
+                        LOG OUT
+                    </a>
+                    <form id="logout-form" th:action="@{/logout}" method="post" style="display: none;"></form>
                 </li>
             </ul>
         </div>

@@ -40,9 +40,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authenticationProvider(authenticationProvider()) // Dodaj tę linię, aby użyć twojego authenticationProvider
+                .authenticationProvider(authenticationProvider())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/about", "/contact", "/auth/login", "/auth/register",
+                        .requestMatchers("/", "/about", "/contact", "/auth/login", "/auth/register","/post/**",
                                 "/css/**", "/js/**", "/assets/**", "/vendor/**", "/imgs/**").permitAll()
                         .anyRequest().authenticated()
                 )

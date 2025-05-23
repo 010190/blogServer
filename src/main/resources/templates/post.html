@@ -9,17 +9,13 @@
     <meta name="author" content="" />
     <title>Clean Blog - Start Bootstrap Theme</title>
 
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
 
-    <!-- Font Awesome -->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" />
 
-    <!-- Custom CSS -->
     <link th:href="@{/css/styles.css}" rel="stylesheet" />
     <script th:src="@{/js/scripts.js}"></script>
 </head>
@@ -36,7 +32,6 @@
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/}">Home</a></li>
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/about}">About</a></li>
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/contact}">Contact</a></li>
-                <!-- Menu dla niezalogowanych -->
                 <li class="nav-item" sec:authorize="!isAuthenticated()">
                     <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/auth/login}">Log in </a>
                 </li>
@@ -48,12 +43,13 @@
                 </li>
 
                 <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <form th:action="@{/logout}" method="post" style="display: inline; margin: 0; padding: 0;">
-                        <button type="submit" class="nav-link px-lg-3 py-3 py-lg-4 btn btn-link" style="background: none; border: none; color: white; font-family: inherit; font-size: inherit; text-transform: inherit; font-weight: inherit;">
-                            Log out
-                        </button>
-                    </form>
+                    <a href="#" class="nav-link px-lg-3 py-3 py-lg-4" onclick="document.getElementById('logout-form').submit(); return false;">
+                        LOG OUT
+                    </a>
+                    <form id="logout-form" th:action="@{/logout}" method="post" style="display: none;"></form>
                 </li>
+
+
             </ul>
         </div>
     </div>
