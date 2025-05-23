@@ -2,6 +2,7 @@ package com.example.blogServer.service;
 
 import com.example.blogServer.entity.Statistics;
 import com.example.blogServer.repository.StatisticsRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -25,5 +26,26 @@ public class StatisticsServiceImpl implements StatisticsService {
     @Override
     public List<Statistics> getPostPerformance(Long postId) {
         return statsRepo.findByPostId(postId);
+    }
+
+    @Override
+    public Statistics getAggregatedStatistics(Long postId) {
+        List<Statistics> statsList = statsRepo.findByPostId(postId);
+
+        int views = 0;
+        int likes = 0;
+        int comments = 0;
+
+        for (Statistics s : statsList) {
+            views += s.getViews();
+            likes += s.getLikes();
+            comments += s.getComments();
+        }
+
+        return new Statistics(postId, views, likes, comments);
+    }
+    @Transactional
+    public void deleteByPostId(Long postId) {
+        statsRepo.deleteByPostId(postId);
     }
 }

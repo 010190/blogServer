@@ -7,5 +7,7 @@ public interface LikeService {
     boolean hasUserLikedPost(Long postId, Long userId);
     void unlikePost(Long postId, Long userId);
 
+    void removeLikesByPostId(Long postId);
+
 }
 

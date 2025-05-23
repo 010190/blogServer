@@ -3,6 +3,7 @@ package com.example.blogServer.controller;
 
 import com.example.blogServer.entity.User;
 import com.example.blogServer.service.CommentService;
+import com.example.blogServer.service.StatisticsService;
 import com.example.blogServer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,15 +24,22 @@ public class CommentController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private StatisticsService statisticsService;
+
     @PostMapping("/comments/create")
-    public String createComment(@RequestParam Long postId, @RequestParam Long userId, @RequestParam String content) {
+    public String createComment(@RequestParam Long postId,
+                                @RequestParam Long userId,
+                                @RequestParam String content) {
         try {
             commentService.createComment(postId, userId, content);
+            statisticsService.recordComment(postId);  // ← TU
             return "redirect:/post/" + postId;
         } catch (Exception e) {
             return "redirect:/post/" + postId + "?error=" + e.getMessage();
         }
     }
+
 
 
 

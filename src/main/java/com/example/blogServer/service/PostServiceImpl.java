@@ -106,12 +106,14 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(() -> new EntityNotFoundException("Post o ID " + postId + " nie został znaleziony"));
 
         if (userId == 1 || post.getPostedBy().equals(userId)) {
+
             postRepository.delete(post);
             return true;
         }
 
         return false;
     }
+
 
     @Override
     public void addTagsToPost(Long postId, List<String> tagNames) {

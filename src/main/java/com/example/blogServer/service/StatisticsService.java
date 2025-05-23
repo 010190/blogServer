@@ -11,5 +11,8 @@ public interface StatisticsService {
     void recordLike(Long postId);
     void recordComment(Long postId);
     List<Statistics> getPostPerformance(Long postId);
+
+    Statistics getAggregatedStatistics(Long postId);
+    void deleteByPostId(Long postId);
 }
 

@@ -4,6 +4,7 @@ import com.example.blogServer.entity.User;
 import com.example.blogServer.repository.UserRepository;
 import com.example.blogServer.security.CustomUserDetails;
 import com.example.blogServer.service.LikeService;
+import com.example.blogServer.service.StatisticsService;
 import com.example.blogServer.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,15 @@ public class PostLikeController {
     private final UserService userService;
     private final UserRepository userRepository;
 
+    private final StatisticsService statisticsService;
+
     @Autowired
-    public PostLikeController(LikeService likeService, UserService userService, UserRepository userRepository) {
+    public PostLikeController(LikeService likeService, UserService userService, UserRepository userRepository, StatisticsService statisticsService) {
         this.likeService = likeService;
         this.userService = userService;
         this.userRepository = userRepository;
+        this.statisticsService = statisticsService;
+
     }
 
     @PostMapping
@@ -42,14 +47,14 @@ public class PostLikeController {
             boolean alreadyLiked = likeService.hasUserLikedPost(postId, userId);
             if (alreadyLiked) {
                 likeService.unlikePost(postId, userId);
-                //redirectAttributes.addFlashAttribute("unlikeSuccess", true);
             } else {
                 likeService.likePost(postId, userId);
-                //redirectAttributes.addFlashAttribute("likeSuccess", true);
+                statisticsService.recordLike(postId);  // ← TU
             }
         }
         return "redirect:" + redirectUrl;
     }
+
 
     private Long getUserId(Authentication authentication) {
         Object principal = authentication.getPrincipal();

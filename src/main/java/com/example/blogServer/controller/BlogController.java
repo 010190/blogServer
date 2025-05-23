@@ -1,9 +1,6 @@
 package com.example.blogServer.controller;
 
-import com.example.blogServer.entity.Comment;
-import com.example.blogServer.entity.Post;
-import com.example.blogServer.entity.Tag;
-import com.example.blogServer.entity.User;
+import com.example.blogServer.entity.*;
 import com.example.blogServer.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class BlogController {
@@ -34,6 +33,9 @@ public class BlogController {
 
     @Autowired
     private TagService tagService;
+
+    @Autowired
+    private StatisticsService statisticsService;
 
     private void addUserToModel(Model model, Principal principal) {
         if (principal != null) {
@@ -54,6 +56,15 @@ public class BlogController {
         model.addAttribute("posts", posts);
         List<Tag> tags = tagService.getAllTags();
         model.addAttribute("tags", tags);
+
+        Map<Long, Statistics> postStats = new HashMap<>();
+        for (Post post : posts) {
+            Statistics stats = statisticsService.getAggregatedStatistics(post.getId());
+            postStats.put(post.getId(), stats);
+        }
+        model.addAttribute("postStats", postStats);
+
+
         return "index";
     }
 

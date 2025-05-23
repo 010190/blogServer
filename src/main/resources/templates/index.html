@@ -87,7 +87,19 @@
                       style="background:#eee; padding:2px 6px; margin-right:5px; border-radius:4px; font-size:0.85em;">
                 </span>
                                         </div>
-
+                                        <div class="post-stats mb-2" style="font-size: 0.9em; color: #555;">
+                                                        <span>
+                                                👁️ <span th:text="${postStats[post.id]?.views}">0</span>
+                                                    </span>
+                                                        &nbsp; &nbsp;
+                                                    <span>
+                                                    ❤ <span th:text="${postStats[post.id]?.likes}">0</span>
+                                                    </span>
+                                                         &nbsp; &nbsp;
+                                               <span>
+                                                    💬 <span th:text="${postStats[post.id]?.comments}">0</span>
+                                                </span>
+                                        </div>
                                         <h2 class="post-title" th:text="${post.title}">Man must explore, and this is exploration at its greatest</h2>
                                         <h3 class="post-subtitle" th:text="${post.subtitle}">Problems look mighty small from 150 miles up</h3>
                                     </a>
@@ -95,12 +107,23 @@
                                         Posted by:
                                         <span th:text="${post.author}">Start Bootstrap</span>,
                                         <span th:text="${#temporals.format(post.date, 'MMMM d, yyyy')}">date</span>
-                                        <a th:if="${currentUser != null && (currentUser.id == 1 || currentUser.id == post.postedBy)}"
-                                           th:href="@{'/api/posts/' + ${post.id} + '/delete?userId=' + ${currentUser.id}}"
-                                           class="delete-link"
-                                           onclick="return confirm('Czy na pewno chcesz usunąć ten post?');">X</a>
+                                        <!-- Poprawny URL -->
+                                    <form th:action="@{/api/posts/{postId}/delete(postId=${post.id})}"
+                                          method="post"
+                                          onsubmit="return confirm('Czy na pewno chcesz usunąć ten post?');">
+                                    <input type="hidden" name="userId" th:value="${post.postedBy}" />
+                                        <button type="submit" class="btn btn-outline-danger">
+                                            <i class="fas fa-trash-alt"></i> Usuń post
+                                        </button>
+                                    </form>
+
+
+
+
+
 
                                     </p>
+                                    <hr class="my-4" />
                                 </div>
                             </div>
 

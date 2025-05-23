@@ -2,9 +2,12 @@ package com.example.blogServer.controller;
 
 import com.example.blogServer.entity.Post;
 import com.example.blogServer.service.CommentService;
+import com.example.blogServer.service.LikeService;
 import com.example.blogServer.service.PostService;
 import com.example.blogServer.service.StatisticsService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.Transient;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 
 
@@ -25,11 +29,17 @@ public class PostController {
     @Autowired
     private CommentService commentService;
 
+
+    @Autowired
+    private LikeService likeService;
+
     @Autowired
     public PostController(PostService postService,
-                          StatisticsService statisticsService) {
+                          StatisticsService statisticsService,
+                          LikeService likeService) {
         this.postService = postService;
         this.statisticsService = statisticsService;
+        this.likeService = likeService;
 
 
     }
@@ -97,36 +107,17 @@ public class PostController {
         return ResponseEntity.ok(postService.getTotalUserLikes(userId));
     }
 
-    @DeleteMapping("/{postId}")
-    public ResponseEntity<?> deletePost(
+    @PostMapping("/{postId}/delete")
+    @Transactional
+    public String deletePost(
             @PathVariable Long postId,
-            @RequestParam Long userId
-    ) {
-        try {
-            commentService.deleteByPostId(postId);
-
-            boolean deleted = postService.deletePost(postId, userId);
-
-            if (deleted) {
-                return ResponseEntity.ok("Post został pomyślnie usunięty.");
-            } else {
-                return ResponseEntity.status(403).body("Brak uprawnień do usunięcia tego posta.");
-            }
-        } catch (EntityNotFoundException ex) {
-            return ResponseEntity.status(404).body(ex.getMessage());
-        } catch (Exception ex) {
-            return ResponseEntity.status(500).body("Wystąpił błąd podczas usuwania posta: " + ex.getMessage());
-        }
-    }
-
-    @GetMapping("/{postId}/delete")
-    public String deletePostByLink(
-            @PathVariable Long postId,
+            Principal principal,
             @RequestParam Long userId,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes)  {
         try {
             commentService.deleteByPostId(postId);
-
+            likeService.removeLikesByPostId(postId);
+            statisticsService.deleteByPostId(postId);
             boolean deleted = postService.deletePost(postId, userId);
 
             if (deleted) {
@@ -141,6 +132,7 @@ public class PostController {
         }
         return "redirect:/";
     }
+
 }
 
 
