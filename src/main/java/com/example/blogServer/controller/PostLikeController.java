@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/likes")
 public class PostLikeController {
 
     private final LikeService likeService;
@@ -29,31 +29,24 @@ public class PostLikeController {
         this.likeService = likeService;
         this.userService = userService;
         this.userRepository = userRepository;
-
     }
 
-    @PostMapping("/post/{postId}/likes")
-    public String likePost(@PathVariable Long postId,
-                           @RequestParam String redirectUrl,
-                           Authentication authentication,
-                           RedirectAttributes redirectAttributes) {
-        if (authentication != null && authentication.isAuthenticated()) {
-            Long userId = getUserId(authentication);
-            likeService.likePost(postId, userId);
-            redirectAttributes.addFlashAttribute("likeSuccess", true);
-        }
-        return "redirect:" + redirectUrl;
-    }
-
-    @PostMapping("/likes/unlike")
-    public String unlikePost(@RequestParam Long postId,
+    @PostMapping
+    public String toggleLike(@RequestParam Long postId,
                              @RequestParam String redirectUrl,
-                             RedirectAttributes redirectAttributes,
-                             Authentication authentication) {
+                             Authentication authentication,
+                             RedirectAttributes redirectAttributes) {
         if (authentication != null && authentication.isAuthenticated()) {
             Long userId = getUserId(authentication);
-            likeService.unlikePost(postId, userId);
-            redirectAttributes.addFlashAttribute("unlikeSuccess", true);
+
+            boolean alreadyLiked = likeService.hasUserLikedPost(postId, userId);
+            if (alreadyLiked) {
+                likeService.unlikePost(postId, userId);
+                //redirectAttributes.addFlashAttribute("unlikeSuccess", true);
+            } else {
+                likeService.likePost(postId, userId);
+                //redirectAttributes.addFlashAttribute("likeSuccess", true);
+            }
         }
         return "redirect:" + redirectUrl;
     }
@@ -72,5 +65,4 @@ public class PostLikeController {
             return user.getId();
         }
     }
-
 }

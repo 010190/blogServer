@@ -103,10 +103,8 @@ public class PostController {
             @RequestParam Long userId
     ) {
         try {
-            // Najpierw usuwamy wszystkie komentarze powiązane z postem
             commentService.deleteByPostId(postId);
 
-            // Następnie usuwamy sam post
             boolean deleted = postService.deletePost(postId, userId);
 
             if (deleted) {

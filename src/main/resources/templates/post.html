@@ -86,21 +86,16 @@
                             <span th:text="${likeCount}">0</span> polubień
                         </div>
 
-                        <form th:if="${!userHasLiked}" th:action="@{/api/post/{id}/likes(id=${post.id})}" method="post" class="mt-2">
-                            <input type="hidden" name="redirectUrl" th:value="@{/posts/{id}(id=${post.id})}" />
-                            <button type="submit" class="btn btn-outline-light">
-                                <i class="fas fa-heart"></i> Polub
+                        <form th:action="@{/likes}" method="post" class="mt-2">
+                            <input type="hidden" name="postId" th:value="${post.id}" />
+                            <input type="hidden" name="redirectUrl" th:value="@{/post/{id}(id=${post.id})}" />
+                            <button type="submit"
+                                    th:class="${userHasLiked} ? 'btn btn-light' : 'btn btn-outline-light'">
+                                <i class="fas fa-heart"></i>
+                                <span th:text="${userHasLiked} ? 'Usuń polubienie' : 'Polub'"></span>
                             </button>
                         </form>
 
-                        <!-- Formularz dla usunięcia polubienia -->
-                        <form th:if="${userHasLiked}" th:action="@{/api/likes/unlike}" method="post" class="mt-2">
-                            <input type="hidden" name="postId" th:value="${post.id}" />
-                            <input type="hidden" name="redirectUrl" th:value="@{/posts/{id}(id=${post.id})}" />
-                            <button type="submit" class="btn btn-light">
-                                <i class="fas fa-heart"></i> Usuń polubienie
-                            </button>
-                        </form>
                     </div>
 
 
@@ -143,7 +138,7 @@
             <div th:if="${comments != null && !comments.isEmpty()}" class="comments-list">
                 <div th:each="comment : ${comments}" class="comment mb-4">
                     <div class="comment-header d-flex justify-content-between">
-                        <strong th:text="${comment.authorName}">User</strong>
+                        <strong th:text="${comment.postedBy}">User</strong>
                         <span th:text="${#dates.format(comment.createdAt, 'd MMMM yyyy HH:mm')}">Date</span>
                     </div>
                     <div class="comment-body" th:text="${comment.content}">

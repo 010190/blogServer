@@ -39,8 +39,8 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = new Comment();
         comment.setContent(content);
         comment.setCreatedAt(new Date());
-        comment.setPostedBy(user.getName());  // Możesz użyć user.getUsername() lub user.getName()
-        comment.setUserId(userId);  // Ustawienie userId
+        comment.setPostedBy(user.getName());
+        comment.setUserId(userId);
         comment.setPost(post);
 
         return commentRepository.save(comment);

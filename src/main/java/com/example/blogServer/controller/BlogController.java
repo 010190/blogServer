@@ -81,6 +81,7 @@ public class BlogController {
         List<Comment> comments = commentService.getCommentsByPostId(id);
         model.addAttribute("comments", comments);
 
+
         return "post";
     }
 
