@@ -27,5 +27,9 @@ public interface PostService {
 
     void addTagsToPost(Long postId, List<String> tagNames);
 
+    Post updatePost(Post post);
+
+    void updateTagsForPost(Long postId, List<String> tagNames);
+
 
 }

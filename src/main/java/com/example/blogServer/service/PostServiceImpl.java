@@ -7,6 +7,7 @@ import com.example.blogServer.repository.PostRepository;
 import com.example.blogServer.repository.TagRepository;
 import com.example.blogServer.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -128,5 +129,26 @@ public class PostServiceImpl implements PostService {
         post.setTags(tags);
         postRepository.save(post);
     }
+
+    @Override
+    public Post updatePost(Post post) {
+        return postRepository.save(post);
+    }
+
+    @Override
+    @Transactional
+    public void updateTagsForPost(Long postId, List<String> tagNames) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new EntityNotFoundException("Post not found"));
+
+        Set<Tag> tags = tagNames.stream()
+                .map(name -> tagRepository.findByTitle(name)
+                        .orElseGet(() -> tagRepository.save(new Tag(name))))
+                .collect(Collectors.toSet());
+
+        post.setTags(tags);
+        postRepository.save(post);
+    }
+
 }
 
