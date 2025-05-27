@@ -93,7 +93,7 @@
                                     <button type="submit"
                                             th:class="${userHasLiked} ? 'btn btn-light' : 'btn btn-outline-light'">
                                         <i class="fas fa-heart"></i>
-                                        <span th:text="${userHasLiked} ? 'Usuń polubienie' : 'Polub'"></span>
+                                        <span th:text="${userHasLiked} ? 'Unlike' : 'Like'"></span>
                                     </button>
                                 </form>
                                 <form th:if="${loggedUserId == 1} or ${loggedUserId == post.postedBy}"
@@ -101,14 +101,14 @@
                                       method="post"
                                       onsubmit="return confirm('Czy na pewno chcesz usunąć ten post?');">
                                     <button type="submit" class="btn btn-outline-danger">
-                                        <i class="fas fa-trash-alt"></i> Usuń post
+                                        <i class="fas fa-trash-alt"></i> Delete post
                                     </button>
                                 </form>
 
                                 <a th:if="${loggedUserId == 1} or ${loggedUserId == post.postedBy}"
                                    th:href="@{/posts/edit/{id}(id=${post.id})}"
                                    class="btn btn-outline-primary">
-                                    <i class="fas fa-edit"></i> Edytuj post
+                                    <i class="fas fa-edit"></i> Edit post
                                 </a>
 
                             </div>

@@ -63,8 +63,8 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="page-heading">
-                    <h1>Rejestracja</h1>
-                    <span class="subheading">Stwórz konto, aby dołączyć do naszej społeczności</span>
+                    <h1>Sign in</h1>
+                    <span class="subheading">Sign in, to join our community!</span>
                 </div>
             </div>
         </div>
@@ -74,40 +74,40 @@
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
-                <p>Wypełnij poniższy formularz, aby utworzyć nowe konto.</p>
+                <p>Fill this form to create account.</p>
                 <div class="my-5">
                     <div th:if="${registrationError}" class="alert alert-danger" th:text="${registrationError}"></div>
 
                     <form th:action="@{/auth/register}" th:object="${userDto}" method="post" id="registerForm">
                         <div class="form-floating">
-                            <input class="form-control" th:field="*{username}" id="username" type="text" placeholder="Nazwa użytkownika" required />
-                            <label for="username">Nazwa użytkownika</label>
+                            <input class="form-control" th:field="*{username}" id="username" type="text" placeholder="Username" required />
+                            <label for="username">Username</label>
                             <div class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
                         </div>
 
                         <div class="form-floating">
-                            <input class="form-control" th:field="*{name}" id="name" type="text" placeholder="Imię" required />
-                            <label for="name">Imię</label>
+                            <input class="form-control" th:field="*{name}" id="name" type="text" placeholder="Name" required />
+                            <label for="name">Name</label>
                             <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
                         </div>
 
                         <div class="form-floating">
-                            <input class="form-control" th:field="*{password}" id="password" type="password" placeholder="Hasło" required />
+                            <input class="form-control" th:field="*{password}" id="password" type="password" placeholder="Password" required />
                             <label for="password">Hasło</label>
                             <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
                         </div>
 
                         <div class="form-floating">
-                            <input class="form-control" th:field="*{confirmPassword}" id="confirmPassword" type="password" placeholder="Potwierdź hasło" required />
-                            <label for="confirmPassword">Potwierdź hasło</label>
+                            <input class="form-control" th:field="*{confirmPassword}" id="confirmPassword" type="password" placeholder="Confirm password" required />
+                            <label for="confirmPassword">Confirm password</label>
                             <div class="text-danger" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></div>
                         </div>
 
                         <br />
-                        <button class="btn btn-primary text-uppercase" type="submit">Zarejestruj się</button>
+                        <button class="btn btn-primary text-uppercase" type="submit">Sign in</button>
                     </form>
                     <div class="mt-4">
-                        <p>Masz już konto? <a th:href="@{/auth/login}">Zaloguj się</a></p>
+                        <p>Already have account? <a th:href="@{/auth/login}">Log in</a></p>
                     </div>
                 </div>
             </div>

@@ -65,8 +65,9 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="page-heading">
-                    <h1>Logowanie</h1>
-                    <span class="subheading">Zaloguj się, aby korzystać z pełni funkcji</span>
+                    <h1>Log in</h1>
+                    <span class="subheading"> Log in to enjoy the full features
+                       </span>
                 </div>
             </div>
         </div>
@@ -76,27 +77,27 @@
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
-                <p>Podaj swoje dane logowania, aby zalogować się do konta.</p>
+                <p>Enter your login information to log in to your account.</p>
                 <div class="my-5">
                     <div th:if="${param.error}" class="alert alert-danger">
-                        Nieprawidłowa nazwa użytkownika lub hasło.
+                        Incorrect username or password.
                     </div>
                     <div th:if="${param.logout}" class="alert alert-success">
-                        Zostałeś wylogowany.
+                        You have been logged out.
                     </div>
                     <form th:action="@{/auth/login-process}" method="post">
                         <div class="form-group">
-                            <label for="username">Nazwa użytkownika</label>
+                            <label for="username">Username</label>
                             <input type="text" class="form-control" id="username" name="username" required>
                         </div>
                         <div class="form-group">
-                            <label for="password">Hasło</label>
+                            <label for="password">Password</label>
                             <input type="password" class="form-control" id="password" name="password" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Zaloguj się</button>
+                        <button type="submit" class="btn btn-primary">Log in</button>
                     </form>
                     <div class="mt-4">
-                        <p>Nie masz jeszcze konta? <a th:href="@{/auth/register}">Zarejestruj się</a></p>
+                        <p>Don't have account yet? <a th:href="@{/auth/register}">Sign in</a></p>
                     </div>
                 </div>
             </div>
