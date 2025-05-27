@@ -31,5 +31,6 @@ public interface PostService {
 
     void updateTagsForPost(Long postId, List<String> tagNames);
 
+    List<Post> searchByTagTitle(String tagName);
 
 }

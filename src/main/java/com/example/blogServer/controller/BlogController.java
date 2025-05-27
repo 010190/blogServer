@@ -147,5 +147,23 @@ public class BlogController {
         addUserToModel(model, principal);
         return "contact";
     }
+
+    @GetMapping("/search")
+    public String searchPosts(@RequestParam("q") String query, Model model) {
+        List<Post> posts = postService.searchByTitle(query);
+        model.addAttribute("posts", posts);
+        model.addAttribute("query", query);
+        return "search";
+    }
+
+    @GetMapping("/tag")
+    public String searchPostsByTag(@RequestParam("title") String tagTitle, Model model) {
+        List<Post> posts = postService.searchByTagTitle(tagTitle);
+        model.addAttribute("posts", posts);
+        model.addAttribute("query", "Posts tagged with: " + tagTitle);
+        return "search";
+    }
+
+
 }
 

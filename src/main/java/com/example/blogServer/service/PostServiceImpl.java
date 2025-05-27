@@ -13,8 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -149,6 +148,21 @@ public class PostServiceImpl implements PostService {
         post.setTags(tags);
         postRepository.save(post);
     }
+
+
+    @Override
+    public List<Post> searchByTagTitle(String tagTitle) {
+        return tagRepository.findByTitle(tagTitle)
+                .map(tag -> {
+                    Set<Post> postSet = tag.getPosts();
+                    return new ArrayList<Post>(postSet);
+                })
+                .orElse(new ArrayList<>());
+    }
+
+
+
+
 
 }
 

@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
@@ -30,7 +30,9 @@
         <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
             <div class="container px-4 px-lg-5">
                 <a class="navbar-brand" th:href="@{/}">Start Bootstrap</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                        aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars"></i>
                 </button>
@@ -41,27 +43,32 @@
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/contact}">Contact</a></li>
                         <!-- Menu dla niezalogowanych -->
                         <li class="nav-item" sec:authorize="!isAuthenticated()">
-                            <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/auth/login}">Log in </a>
+                            <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/auth/login}">Log in</a>
                         </li>
                         <li class="nav-item" sec:authorize="!isAuthenticated()">
-                            <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/auth/register}">Sign in </a>
+                            <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/auth/register}">Sign in</a>
                         </li>
                         <li class="nav-item" sec:authorize="isAuthenticated()">
                             <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/posts/create}">Create post</a>
                         </li>
-
                         <li class="nav-item" sec:authorize="isAuthenticated()">
-                            <a href="#" class="nav-link px-lg-3 py-3 py-lg-4" onclick="document.getElementById('logout-form').submit(); return false;">
+                            <a href="#" class="nav-link px-lg-3 py-3 py-lg-4"
+                               onclick="document.getElementById('logout-form').submit(); return false;">
                                 LOG OUT
                             </a>
                             <form id="logout-form" th:action="@{/logout}" method="post" style="display: none;"></form>
                         </li>
-
-
                     </ul>
+
+                    <!-- FORMULARZ WYSZUKIWANIA -->
+                    <form class="d-flex ms-lg-3 mt-3 mt-lg-0" th:action="@{/search}" method="get">
+                        <input class="form-control me-2" type="search" name="q" placeholder="Search..." aria-label="Search">
+                        <button class="btn btn-outline-primary" type="submit">Search</button>
+                    </form>
                 </div>
             </div>
         </nav>
+
 
         <!-- Page Header-->
         <header class="masthead" th:style="|background-image: url(@{/assets/img/home-bg.jpg})|">
@@ -76,68 +83,62 @@
         </header>
         <!-- Main Content-->
         <div class="container px-4 px-lg-5">
-                    <div class="row gx-4 gx-lg-5 justify-content-center">
-                        <div class="col-md-10 col-lg-8 col-xl-7">
-                            <div th:each="post: ${posts}" class="post-container">
-                                <div class="post-preview">
-                                    <a th:href="@{/post/{id}(id=${post.id})}">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="post-preview">
 
-                                        <div class="tags">
-                <span th:each="tag : ${post.tags}" th:text="${tag.title}" class="tag-label"
-                      style="background:#eee; padding:2px 6px; margin-right:5px; border-radius:4px; font-size:0.85em;">
-                </span>
-                                        </div>
-                                        <div class="post-stats mb-2" style="font-size: 0.9em; color: #555;">
-                                                        <span>
-                                                👁️ <span th:text="${postStats[post.id]?.views}">0</span>
-                                                    </span>
-                                                        &nbsp; &nbsp;
-                                                    <span>
-                                                    ❤ <span th:text="${postStats[post.id]?.likes}">0</span>
-                                                    </span>
-                                                         &nbsp; &nbsp;
-                                               <span>
-                                                    💬 <span th:text="${postStats[post.id]?.comments}">0</span>
-                                                </span>
-                                        </div>
-                                        <h2 class="post-title" th:text="${post.title}">Man must explore, and this is exploration at its greatest</h2>
-                                        <h3 class="post-subtitle" th:text="${post.subtitle}">Problems look mighty small from 150 miles up</h3>
-                                    </a>
-                                    <p class="post-meta">
-                                        Posted by:
-                                        <span th:text="${post.author}">Start Bootstrap</span>,
-                                        <span th:text="${#temporals.format(post.date, 'MMMM d, yyyy')}">date</span>
-                                        <!-- Poprawny URL -->
-                                    <div  style="display: flex; gap: 8px; align-items: center;">
-                                    <form th:if="${loggedUserId == 1} or ${loggedUserId == post.postedBy}"
-                                              th:action="@{/api/posts/{postId}/delete(postId=${post.id})}"
-                                              method="post"
-                                              onsubmit="return confirm('Czy na pewno chcesz usunąć ten post?');">
-                                            <button type="submit" class="btn btn-outline-danger">
-                                                <i class="fas fa-trash-alt"></i> Usuń post
-                                            </button>
-                                        </form>
+            <div th:each="post : ${posts}" class="post-preview">
+                <!-- tagi -->
+                <div class="tags" style="margin-bottom: 8px;">
+                    <a th:each="tag : ${post.tags}"
+                       th:text="${tag.title}"
+                       th:href="@{/tag(title=${tag.title})}"
+                       class="tag-label"
+                       style="background:#eee; padding:2px 6px; margin-right:5px; border-radius:4px; font-size:0.85em; text-decoration:none; color:#333; cursor:pointer; transition: background-color 0.3s ease;">
+                    </a>
+                </div>
 
-                                        <a th:if="${loggedUserId == 1} or ${loggedUserId == post.postedBy}"
-                                           th:href="@{/posts/edit/{id}(id=${post.id})}"
-                                           class="btn btn-outline-primary">
-                                            <i class="fas fa-edit"></i> Edytuj post
-                                        </a>
-                                    </div>
+                <!-- link do posta -->
+                <a th:href="@{/post/{id}(id=${post.id})}" style="text-decoration:none; color:inherit;">
+                    <div class="post-stats mb-2" style="font-size: 0.9em; color: #555;">
+                        <span>👁️ <span th:text="${postStats[post.id]?.views}">0</span></span>
+                        &nbsp; &nbsp;
+                        <span>❤ <span th:text="${postStats[post.id]?.likes}">0</span></span>
+                        &nbsp; &nbsp;
+                        <span>💬 <span th:text="${postStats[post.id]?.comments}">0</span></span>
+                    </div>
+                    <h2 class="post-title" th:text="${post.title}"></h2>
+                    <h3 class="post-subtitle" th:text="${post.subtitle}"></h3>
+                </a>
 
+                <p class="post-meta">
+                    Posted by:
+                    <span th:text="${post.author}">Start Bootstrap</span>,
+                    <span th:text="${#temporals.format(post.date, 'MMMM d, yyyy')}">date</span>
 
+                <div style="display: flex; gap: 8px; align-items: center; margin-top: 10px;">
+                    <form th:if="${loggedUserId == 1} or ${loggedUserId == post.postedBy}"
+                          th:action="@{/api/posts/{postId}/delete(postId=${post.id})}"
+                          method="post"
+                          onsubmit="return confirm('Czy na pewno chcesz usunąć ten post?');">
+                        <button type="submit" class="btn btn-outline-danger">
+                            <i class="fas fa-trash-alt"></i> Usuń post
+                        </button>
+                    </form>
 
-
-
-
-
-                                    </p>
-
-                                </div>
-                            </div>
+                    <a th:if="${loggedUserId == 1} or ${loggedUserId == post.postedBy}"
+                       th:href="@{/posts/edit/{id}(id=${post.id})}"
+                       class="btn btn-outline-primary">
+                        <i class="fas fa-edit"></i> Edytuj post
+                    </a>
+                </div>
+                </p>
+            </div>
+        </div>
+                </div> </div> </div>
 
 
-                            <!-- Divider-->
+        <!-- Divider-->
                     <hr class="my-4" />
                     <!-- Post preview-->
 
