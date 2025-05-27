@@ -21,7 +21,9 @@
 <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
     <div class="container px-4 px-lg-5">
         <a class="navbar-brand" th:href="@{/}">Start Bootstrap</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
         </button>
@@ -32,24 +34,28 @@
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/contact}">Contact</a></li>
                 <!-- Menu dla niezalogowanych -->
                 <li class="nav-item" sec:authorize="!isAuthenticated()">
-                    <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/auth/login}">Log in </a>
+                    <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/auth/login}">Log in</a>
                 </li>
                 <li class="nav-item" sec:authorize="!isAuthenticated()">
-                    <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/auth/register}">Sign in </a>
+                    <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/auth/register}">Sign in</a>
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/posts/create}">Create post</a>
                 </li>
-
                 <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <a href="#" class="nav-link px-lg-3 py-3 py-lg-4" onclick="document.getElementById('logout-form').submit(); return false;">
+                    <a href="#" class="nav-link px-lg-3 py-3 py-lg-4"
+                       onclick="document.getElementById('logout-form').submit(); return false;">
                         LOG OUT
                     </a>
                     <form id="logout-form" th:action="@{/logout}" method="post" style="display: none;"></form>
                 </li>
-
-
             </ul>
+
+            <!-- FORMULARZ WYSZUKIWANIA -->
+            <form class="d-flex ms-lg-3 mt-3 mt-lg-0" th:action="@{/search}" method="get">
+                <input class="form-control me-2" type="search" name="q" placeholder="Search..." aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit">Search</button>
+            </form>
         </div>
     </div>
 </nav>
@@ -74,10 +80,13 @@
             <div th:each="post: ${posts}" class="post-container">
                 <div class="post-preview">
                     <a th:href="@{/post/{id}(id=${post.id})}">
-                        <div class="tags">
-                                <span th:each="tag : ${post.tags}" th:text="${tag.title}" class="tag-label"
-                                      style="background:#eee; padding:2px 6px; margin-right:5px; border-radius:4px; font-size:0.85em;">
-                                </span>
+                        <div class="tags" style="margin-bottom: 8px;">
+                            <a th:each="tag : ${post.tags}"
+                               th:text="${tag.title}"
+                               th:href="@{/tag(title=${tag.title})}"
+                               class="tag-label"
+                               style="background:#eee; padding:2px 6px; margin-right:5px; border-radius:4px; font-size:0.85em; text-decoration:none; color:#333; cursor:pointer; transition: background-color 0.3s ease;">
+                            </a>
                         </div>
                         <div class="post-stats mb-2" style="font-size: 0.9em; color: #555;">
                             <span>👁️ <span th:text="${postStats[post.id]?.views}">0</span></span>
@@ -127,24 +136,10 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <ul class="list-inline text-center">
+
+
                     <li class="list-inline-item">
-                        <a href="#!">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
-                                    </span>
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#!">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
-                                    </span>
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#!">
+                        <a href="https://github.com/010190">
                                     <span class="fa-stack fa-lg">
                                         <i class="fas fa-circle fa-stack-2x"></i>
                                         <i class="fab fa-github fa-stack-1x fa-inverse"></i>
@@ -152,7 +147,9 @@
                         </a>
                     </li>
                 </ul>
-                <div class="small text-center text-muted fst-italic">Copyright &copy; Your Website 2023</div>
+                <div class="small text-center text-muted fst-italic">
+                    Copyright &copy; Blog [[${#dates.format(#dates.createNow(), 'yyyy')}]]
+                </div>
             </div>
         </div>
     </div>

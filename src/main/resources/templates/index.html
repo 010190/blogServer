@@ -29,7 +29,7 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" th:href="@{/}">Start Bootstrap</a>
+                <a class="navbar-brand" th:href="@{/}">Blog</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                         aria-label="Toggle navigation">
@@ -37,7 +37,8 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                    <!-- Lista opcji po lewej stronie -->
+                    <ul class="navbar-nav py-4 py-lg-0">
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/}">Home</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/about}">About</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/contact}">Contact</a></li>
@@ -48,6 +49,7 @@
                         <li class="nav-item" sec:authorize="!isAuthenticated()">
                             <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/auth/register}">Sign in</a>
                         </li>
+                        <!-- Menu dla zalogowanych -->
                         <li class="nav-item" sec:authorize="isAuthenticated()">
                             <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/posts/create}">Create post</a>
                         </li>
@@ -60,14 +62,15 @@
                         </li>
                     </ul>
 
-                    <!-- FORMULARZ WYSZUKIWANIA -->
-                    <form class="d-flex ms-lg-3 mt-3 mt-lg-0" th:action="@{/search}" method="get">
+                    <!-- Formularz wyszukiwania po prawej stronie -->
+                    <form class="d-flex ms-auto mt-3 mt-lg-0" th:action="@{/search}" method="get">
                         <input class="form-control me-2" type="search" name="q" placeholder="Search..." aria-label="Search">
                         <button class="btn btn-outline-primary" type="submit">Search</button>
                     </form>
                 </div>
             </div>
         </nav>
+
 
 
         <!-- Page Header-->
@@ -143,7 +146,7 @@
                     <!-- Post preview-->
 
                     <!-- Pager-->
-                            <div class="d-flex justify-content-end mb-4">
+                            <div class="d-flex justify-content-center mb-4">
                                 <a class="btn btn-primary text-uppercase" th:href="@{/posts/create}">Utwórz nowy post</a>
                             </div>
                 </div>
@@ -155,24 +158,10 @@
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <ul class="list-inline text-center">
+
+
                             <li class="list-inline-item">
-                                <a href="#!">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#!">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#!">
+                                <a href="https://github.com/010190">
                                     <span class="fa-stack fa-lg">
                                         <i class="fas fa-circle fa-stack-2x"></i>
                                         <i class="fab fa-github fa-stack-1x fa-inverse"></i>
@@ -180,8 +169,9 @@
                                 </a>
                             </li>
                         </ul>
-                        <div class="small text-center text-muted fst-italic">Copyright &copy; Your Website 2023</div>
-                    </div>
+                        <div class="small text-center text-muted fst-italic">
+                            Copyright &copy; Blog [[${#dates.format(#dates.createNow(), 'yyyy')}]]
+                        </div>                    </div>
                 </div>
             </div>
         </footer>
