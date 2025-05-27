@@ -160,7 +160,9 @@ public class PostServiceImpl implements PostService {
                 .orElse(new ArrayList<>());
     }
 
-
+    public List<Post> getUserPostsByAuthor(String authorUsername) {
+        return postRepository.findAllByAuthor(authorUsername);
+    }
 
 
 

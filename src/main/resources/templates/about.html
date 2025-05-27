@@ -34,7 +34,9 @@
                 <ul class="navbar-nav ms-auto py-4 py-lg-0">
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/}">Home</a></li>
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/about}">About</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/contact}">Contact</a></li>
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/profile}">Your Profile</a>
+                    </li>
                     <!-- Menu dla niezalogowanych -->
                     <li class="nav-item" sec:authorize="!isAuthenticated()">
                         <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/auth/login}">Log in</a>

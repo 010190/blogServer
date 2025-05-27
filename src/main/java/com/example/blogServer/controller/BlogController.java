@@ -213,6 +213,65 @@ public class BlogController {
         return "search";
     }
 
+    @GetMapping("/profile")
+    public String userProfile(Model model, Principal principal) {
+        if (principal == null) {
+            return "redirect:/auth/login";
+        }
+
+        String username = principal.getName();
+        User user = userService.findByUsername(username);
+        Long userId = user.getId();
+
+        List<Post> userPosts = postService.getUserPosts(userId);
+
+        // Mapa statystyk dla każdego posta
+        Map<Long, Map<String, Integer>> postStats = new HashMap<>();
+
+        // Zmienne do sumowania statystyk
+        int totalViews = 0;
+        int totalLikes = 0;
+        int totalComments = 0;
+
+        for (Post post : userPosts) {
+            Map<String, Integer> stats = new HashMap<>();
+
+            int views = post.getViewCount();
+            int likes = (int) likeService.countLikes(post.getId());
+            int comments = commentService.countCommentsByPostId(post.getId());
+
+            stats.put("views", views);
+            stats.put("likes", likes);
+            stats.put("comments", comments);
+
+            postStats.put(post.getId(), stats);
+
+            // Sumujemy do łącznych statystyk
+            totalViews += views;
+            totalLikes += likes;
+            totalComments += comments;
+        }
+
+        // Sumaryczne statystyki dla wszystkich postów użytkownika
+        Map<String, Integer> totalStats = new HashMap<>();
+        totalStats.put("views", totalViews);
+        totalStats.put("likes", totalLikes);
+        totalStats.put("comments", totalComments);
+
+        model.addAttribute("username", username);
+        model.addAttribute("userPosts", userPosts);
+        model.addAttribute("postStats", postStats);
+        model.addAttribute("totalStats", totalStats);
+
+        return "user";
+    }
+
+
+
+
+
+
+
 
 }
 

@@ -33,4 +33,10 @@ public interface PostService {
 
     List<Post> searchByTagTitle(String tagName);
 
+
+    List<Post> getUserPostsByAuthor(String authorUsername);
+
+
+
+
 }
