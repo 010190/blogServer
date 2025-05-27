@@ -11,5 +11,4 @@ public class LoginResponseDto {
     private Long id;
     private String username;
     private String roles;
-    // Możesz dodać token JWT, jeśli planujesz używać uwierzytelniania opartego na tokenach
 }

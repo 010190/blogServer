@@ -22,13 +22,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
     <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" th:href="@{/}">Start Bootstrap</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                aria-label="Toggle navigation">
-            Menu
-            <i class="fas fa-bars"></i>
-        </button>
+
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto py-4 py-lg-0">
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/}">Home</a></li>
@@ -36,7 +30,6 @@
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/profile}">Your Profile</a>
                 </li>
-                <!-- Menu dla niezalogowanych -->
                 <li class="nav-item" sec:authorize="!isAuthenticated()">
                     <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/auth/login}">Log in</a>
                 </li>
@@ -55,7 +48,6 @@
                 </li>
             </ul>
 
-            <!-- FORMULARZ WYSZUKIWANIA -->
             <form class="d-flex ms-lg-3 mt-3 mt-lg-0" th:action="@{/search}" method="get">
                 <input class="form-control me-2" type="search" name="q" placeholder="Search..." aria-label="Search">
                 <button class="btn btn-outline-primary" type="submit">Search</button>
@@ -65,8 +57,8 @@
 </nav>
 
 
-<!-- Page Header-->
-<!-- Page Header-->
+
+
 <header class="masthead" th:style="|background-image: url(${post.img})|">
     <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -130,24 +122,20 @@
     </div>
 </header>
 
-<!-- Post Content-->
 <article class="mb-4">
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7" th:utext="${post.content}">
-                <!-- Treść postu jest renderowana przez th:utext -->
             </div>
         </div>
     </div>
 </article>
 
-<!-- Comments Section -->
 <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
             <h2 class="section-heading">Comments</h2>
 
-            <!-- Form for adding comments (only for authenticated users) -->
             <div sec:authorize="isAuthenticated()" class="mb-5">
                 <form th:action="@{/comments/create}" method="post">
                     <input type="hidden" name="postId" th:value="${post.id}" />
@@ -159,7 +147,6 @@
                 </form>
             </div>
 
-            <!-- List of comments -->
             <div th:if="${comments != null && !comments.isEmpty()}" class="comments-list">
                 <div th:each="comment : ${comments}" class="comment mb-4">
                     <div class="comment-header d-flex justify-content-between">
@@ -169,7 +156,6 @@
                     <div class="comment-body" th:text="${comment.content}">
                         Comment content
                     </div>
-                    <!-- Delete comment button (only for author, post author or admin) -->
                     <div th:if="${#authentication.isAuthenticated() && (#authentication.principal instanceof T(com.example.blogServer.security.CustomUserDetails) ? #authentication.principal.id : -1) == comment.userId ||
                                 (#authentication.principal instanceof T(com.example.blogServer.security.CustomUserDetails) ? #authentication.principal.id : -1) == post.postedBy ||
                                 (#authentication.principal instanceof T(com.example.blogServer.security.CustomUserDetails) ? #authentication.principal.id : -1) == 1}"
@@ -190,7 +176,6 @@
     </div>
 </div>
 
-<!-- Footer-->
 <footer class="border-top">
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -215,7 +200,6 @@
     </div>
 </footer>
 
-<!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

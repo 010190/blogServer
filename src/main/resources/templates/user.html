@@ -24,13 +24,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
     <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" th:href="@{/}">Start Bootstrap</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                aria-label="Toggle navigation">
-            Menu
-            <i class="fas fa-bars"></i>
-        </button>
+
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto py-4 py-lg-0">
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/}">Home</a></li>
@@ -38,7 +32,6 @@
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/profile}">Your Profile</a>
                 </li>
-                <!-- Menu dla niezalogowanych -->
                 <li class="nav-item" sec:authorize="!isAuthenticated()">
                     <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/auth/login}">Log in</a>
                 </li>
@@ -57,7 +50,6 @@
                 </li>
             </ul>
 
-            <!-- FORMULARZ WYSZUKIWANIA -->
             <form class="d-flex ms-lg-3 mt-3 mt-lg-0" th:action="@{/search}" method="get">
                 <input class="form-control me-2" type="search" name="q" placeholder="Search..." aria-label="Search">
                 <button class="btn btn-outline-primary" type="submit">Search</button>
@@ -72,8 +64,16 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="page-heading">
-                    <h1 th:text="${username} + ' Profile'">User Profile</h1>
-                    <span class="subheading">User statistics and posts overview.</span>
+                    <img th:src=(@{/assets/img/icon.png}) class="rounded-circle" style="width: 100px; height: 100px; object-fit: cover; margin-bottom: 10px;">
+                    <h1 th:text="${username} ">User Profile</h1>
+                    <span class="subheading">
+                    <h2>Statistics</h2>
+
+                       <strong></strong><span> 👁 <span th:text="${totalStats.views}">0</span></span>
+                        <strong></strong><span> ❤ <span th:text="${totalStats.likes}">0</span></span>
+                        <strong></strong> <span> 💬 <span th:text="${totalStats.comments}">0</span></span>
+
+                </span>
                 </div>
             </div>
         </div>
@@ -85,19 +85,11 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
 
-                <!-- Statystyki użytkownika -->
-                <section class="mb-5">
-                    <h2>Statistics</h2>
-                    <ul>
-                        <li><strong>Total Views:</strong> <span th:text="${totalStats.views}">0</span></li>
-                        <li><strong>Total Likes:</strong> <span th:text="${totalStats.likes}">0</span></li>
-                        <li><strong>Total Comments:</strong> <span th:text="${totalStats.comments}">0</span></li>
-                    </ul>
-                </section>
 
-                <!-- Lista postów użytkownika -->
+
                 <section>
-                    <h2>User Posts</h2>
+                    <h1 style="text-align: center ">User Posts</h1>
+                    <hr>
                     <div th:each="post : ${userPosts}" class="post-preview">
                         <!-- tagi -->
                         <div class="tags" style="margin-bottom: 8px;">
@@ -109,7 +101,6 @@
                             </a>
                         </div>
 
-                        <!-- link do posta -->
                         <a th:href="@{/post/{id}(id=${post.id})}" style="text-decoration:none; color:inherit;">
                             <div class="post-stats mb-2" style="font-size: 0.9em; color: #555;">
                                 <span>👁️ <span th:text="${postStats[post.id]?.views}">0</span></span>
@@ -139,16 +130,13 @@
 
                             <a th:if="${loggedUserId == 1} or ${loggedUserId == post.postedBy}"
                                th:href="@{/posts/edit/{id}(id=${post.id})}"
-                               class="btn btn-outline-primary">
+                               class="btn btn-outline-dark">
                                 <i class="fas fa-edit"></i> Edytuj post
                             </a>
                         </div>
-                        </p>
+                        <hr>
                     </div>
-                </section>  </div>
-
-
-        </div> </div> </div>
+                </section>
             </div>
         </div>
     </div>

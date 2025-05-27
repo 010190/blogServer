@@ -16,7 +16,6 @@ public class CustomUserDetails implements UserDetails {
         this.user = user;
     }
 
-    // Dodaj getter dla id
     public Long getId() {
         return user.getId();
     }

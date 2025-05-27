@@ -225,13 +225,17 @@ public class BlogController {
 
         List<Post> userPosts = postService.getUserPosts(userId);
 
-        // Mapa statystyk dla każdego posta
         Map<Long, Map<String, Integer>> postStats = new HashMap<>();
 
-        // Zmienne do sumowania statystyk
         int totalViews = 0;
         int totalLikes = 0;
         int totalComments = 0;
+
+        Long loggedUserId = null;
+        if (principal != null) {
+            loggedUserId = userService.findUserIdByUsername(principal.getName());
+        }
+        model.addAttribute("loggedUserId", loggedUserId);
 
         for (Post post : userPosts) {
             Map<String, Integer> stats = new HashMap<>();
@@ -246,13 +250,11 @@ public class BlogController {
 
             postStats.put(post.getId(), stats);
 
-            // Sumujemy do łącznych statystyk
             totalViews += views;
             totalLikes += likes;
             totalComments += comments;
         }
 
-        // Sumaryczne statystyki dla wszystkich postów użytkownika
         Map<String, Integer> totalStats = new HashMap<>();
         totalStats.put("views", totalViews);
         totalStats.put("likes", totalLikes);

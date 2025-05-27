@@ -23,13 +23,7 @@
     <body>
     <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" th:href="@{/}">Blog</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                Menu
-                <i class="fas fa-bars"></i>
-            </button>
+
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto py-4 py-lg-0">
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/}">Home</a></li>
@@ -37,7 +31,6 @@
                     <li class="nav-item" sec:authorize="isAuthenticated()">
                         <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/profile}">Your Profile</a>
                     </li>
-                    <!-- Menu dla niezalogowanych -->
                     <li class="nav-item" sec:authorize="!isAuthenticated()">
                         <a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/auth/login}">Log in</a>
                     </li>
@@ -56,7 +49,6 @@
                     </li>
                 </ul>
 
-                <!-- FORMULARZ WYSZUKIWANIA -->
                 <form class="d-flex ms-lg-3 mt-3 mt-lg-0" th:action="@{/search}" method="get">
                     <input class="form-control me-2" type="search" name="q" placeholder="Search..." aria-label="Search">
                     <button class="btn btn-outline-primary" type="submit">Search</button>
@@ -65,13 +57,14 @@
         </div>
     </nav>
 
-        <header class="masthead" th:style="|background-image: url(@{/assets/img/about-bg.jpg})|">
+
+    <header class="masthead" th:style="|background-image: url(@{/assets/img/about-bg.jpg})|">
             <div class="container position-relative px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <div class="page-heading">
-                            <h1>About Me</h1>
-                            <span class="subheading">This is what I do.</span>
+                            <h1>About Us</h1>
+                            <span class="subheading">Make blogging great again!</span>
                         </div>
                     </div>
                 </div>
@@ -80,10 +73,12 @@
         <main class="mb-4">
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe nostrum ullam eveniet pariatur voluptates odit, fuga atque ea nobis sit soluta odio, adipisci quas excepturi maxime quae totam ducimus consectetur?</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius praesentium recusandae illo eaque architecto error, repellendus iusto reprehenderit, doloribus, minus sunt. Numquam at quae voluptatum in officia voluptas voluptatibus, minus!</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut consequuntur magnam, excepturi aliquid ex itaque esse est vero natus quae optio aperiam soluta voluptatibus corporis atque iste neque sit tempora!</p>
+                    <div class="col-md-10 col-lg-8 col-xl-7" style="text-align: center">
+                        <p>We want to you join our blogging community and discover world with us!
+                            Join our community and begin your journey! Learn and share your knowledge, thoughts and everything you want with us!
+                            Let's rebuild the sense of community and awaken the imagination of the world!</p>
+
+
                     </div>
                 </div>
             </div>
