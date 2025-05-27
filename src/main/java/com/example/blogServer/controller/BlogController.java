@@ -52,26 +52,41 @@ public class BlogController {
     @GetMapping("/")
     public String home(Model model, Principal principal) {
         addUserToModel(model, principal);
+
         List<Post> posts = postService.getAllPosts();
         model.addAttribute("posts", posts);
+
         List<Tag> tags = tagService.getAllTags();
         model.addAttribute("tags", tags);
+
         Long loggedUserId = null;
         if (principal != null) {
             loggedUserId = userService.findUserIdByUsername(principal.getName());
         }
         model.addAttribute("loggedUserId", loggedUserId);
 
-        Map<Long, Statistics> postStats = new HashMap<>();
+        Map<Long, Map<String, Integer>> postStats = new HashMap<>();
+
         for (Post post : posts) {
-            Statistics stats = statisticsService.getAggregatedStatistics(post.getId());
+            Map<String, Integer> stats = new HashMap<>();
+            stats.put("views", post.getViewCount());
+
+            long likeCount = likeService.countLikes(post.getId());
+            stats.put("likes", (int) likeCount);
+
+
+            int commentCount = commentService.countCommentsByPostId(post.getId());
+            stats.put("comments", commentCount);
+
             postStats.put(post.getId(), stats);
         }
-        model.addAttribute("postStats", postStats);
 
+
+        model.addAttribute("postStats", postStats);
 
         return "index";
     }
+
 
     @GetMapping("/about")
     public String about(Model model, Principal principal) {
@@ -153,6 +168,23 @@ public class BlogController {
         List<Post> posts = postService.searchByTitle(query);
         model.addAttribute("posts", posts);
         model.addAttribute("query", query);
+        Map<Long, Map<String, Integer>> postStats = new HashMap<>();
+
+        for (Post post : posts) {
+            Map<String, Integer> stats = new HashMap<>();
+            stats.put("views", post.getViewCount());
+
+            long likeCount = likeService.countLikes(post.getId());
+            stats.put("likes", (int) likeCount);
+
+
+            int commentCount = commentService.countCommentsByPostId(post.getId());
+            stats.put("comments", commentCount);
+
+            postStats.put(post.getId(), stats);
+        }
+        model.addAttribute("postStats", postStats);
+
         return "search";
     }
 
@@ -161,6 +193,23 @@ public class BlogController {
         List<Post> posts = postService.searchByTagTitle(tagTitle);
         model.addAttribute("posts", posts);
         model.addAttribute("query", "Posts tagged with: " + tagTitle);
+        Map<Long, Map<String, Integer>> postStats = new HashMap<>();
+
+        for (Post post : posts) {
+            Map<String, Integer> stats = new HashMap<>();
+            stats.put("views", post.getViewCount());
+
+            long likeCount = likeService.countLikes(post.getId());
+            stats.put("likes", (int) likeCount);
+
+
+            int commentCount = commentService.countCommentsByPostId(post.getId());
+            stats.put("comments", commentCount);
+
+            postStats.put(post.getId(), stats);
+        }
+        model.addAttribute("postStats", postStats);
+
         return "search";
     }
 

@@ -81,5 +81,8 @@ public class CommentServiceImpl implements CommentService {
 
         return false;
     }
-
+    @Override
+    public int countCommentsByPostId(Long postId) {
+        return commentRepository.countByPostId(postId);
+    }
 }

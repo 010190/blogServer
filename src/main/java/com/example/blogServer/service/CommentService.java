@@ -13,4 +13,6 @@ public interface CommentService {
 
     boolean deleteComment(Long commentId, Long userId);
 
+    int countCommentsByPostId(Long postId);
+
 }

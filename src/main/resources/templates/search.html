@@ -80,14 +80,11 @@
                                 </span>
                         </div>
                         <div class="post-stats mb-2" style="font-size: 0.9em; color: #555;">
-                            <span>👁️ <span th:text="${postStats != null and postStats[post.id] != null} ? ${postStats[post.id].views} : 0">0</span>
-</span>
-                            &nbsp;&nbsp;
-                            <span>❤ <span th:text="${postStats != null and postStats[post.id] != null} ? ${postStats[post.id].likes} : 0">0</span>
-</span>
-                            &nbsp;&nbsp;
-                            <span>💬 <span th:text="${postStats != null and postStats[post.id] != null} ? ${postStats[post.id].comments} : 0">0</span>
-</span>
+                            <span>👁️ <span th:text="${postStats[post.id]?.views}">0</span></span>
+                            &nbsp; &nbsp;
+                            <span>❤ <span th:text="${postStats[post.id]?.likes}">0</span></span>
+                            &nbsp; &nbsp;
+                            <span>💬 <span th:text="${postStats[post.id]?.comments}">0</span></span>
                         </div>
                         <h2 class="post-title" th:text="${post.title}">Post title</h2>
                         <h3 class="post-subtitle" th:text="${post.subtitle}">Post subtitle</h3>
