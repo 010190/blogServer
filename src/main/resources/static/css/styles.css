@@ -10690,8 +10690,7 @@ header.masthead:before {
 header.masthead .page-heading,
 header.masthead .post-heading,
 header.masthead .site-heading {
-  text-align: center;
-  margin: auto;
+
   color: #ffffff;
 }
 header.masthead .page-heading,
