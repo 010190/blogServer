@@ -62,7 +62,7 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="post-heading">
-                    <h1>Dodaj nowy post</h1>
+                    <h1>Add new post</h1>
                 </div>
             </div>
         </div>
@@ -74,28 +74,28 @@
         <div class="col-md-10 col-lg-8 col-xl-7">
             <form th:action="@{/posts/create}" method="post">
                 <div class="form-group mb-3">
-                    <label for="title">Tytuł</label>
+                    <label for="title">Title</label>
                     <input type="text" class="form-control" id="title" name="title" required>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="subtitle">Podtytuł</label>
+                    <label for="subtitle">Subtitle</label>
                     <input type="text" class="form-control" id="subtitle" name="subtitle">
                 </div>
                 <div class="form-group mb-3">
-                    <label for="content">Treść</label>
+                    <label for="content">Content</label>
                     <textarea class="form-control" id="content" name="content" rows="10" required></textarea>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="img">URL obrazka (opcjonalnie)</label>
+                    <label for="img">Image url (optional)</label>
                     <input type="text" class="form-control" id="img" name="img" placeholder="np. /assets/img/post-bg.jpg">
-                    <small class="form-text text-muted">Jeśli pozostawisz puste, zostanie użyty domyślny obrazek.</small>
+                    <small class="form-text text-muted">If you leave it empty, default image will be added</small>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="tags">Tagi (oddziel przecinkami)</label>
+                    <label for="tags">Tags (separate with commas)</label>
                     <input type="text" class="form-control" id="tags" name="tags" placeholder="np. java, spring, backend">
                 </div>
 
-                <button type="submit" class="btn btn-primary">Dodaj post</button>
+                <button type="submit" class="btn btn-primary">Add post</button>
             </form>
         </div>
     </div>
