@@ -116,7 +116,7 @@
 
                     <a th:if="${loggedUserId == 1} or ${loggedUserId == post.postedBy}"
                        th:href="@{/posts/edit/{id}(id=${post.id})}"
-                       class="btn btn-outline-primary">
+                       class="btn btn-outline-dark">
                         <i class="fas fa-edit"></i> Edit post
                     </a>
                 </div>
